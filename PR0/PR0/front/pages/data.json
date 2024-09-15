@@ -1,0 +1,86 @@
+{
+    "preguntes": [
+      {
+        "id": 1,
+        "pregunta": "Quina marca de refrescos utilitza el lema 'Open Happiness'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Coca-Cola",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Pepsi",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Dr. Pepper",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "7-Up",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/cocacola.jpg"
+      },
+      {
+        "id": 2,
+        "pregunta": "Quina marca de tecnologia utilitza el lema 'Think Different'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Apple",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Microsoft",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Google",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Samsung",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/apple.jpg"
+      },
+      {
+        "id": 3,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      }
+    ]
+  }
+  
