@@ -23,27 +23,33 @@ let cargarQuestion = function (indice) {
             });
 
             containerAnswers.innerHTML = answersHtml;
-            
+
             let btnsOption = document.querySelectorAll('.btnOpcion');;
 
             btnsOption.forEach((btnOpcion) => {
                 btnOpcion.addEventListener('click', function () {
+                    
                     cargarQuestion(indice)
                 });
             })
+
             let containerProgressbar = document.querySelector('#containerProgressbar');
             containerProgressbar.innerHTML = `
-            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${indice*10}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: ${indice*10}%"></div>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${indice * 10}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: ${indice * 10}%"></div>
             </div>
             `;
 
             indice++;
-            
+
         })
         .catch(error => console.error('Error:', error));
 }
 
+
+let verify = function () {
+
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     init();

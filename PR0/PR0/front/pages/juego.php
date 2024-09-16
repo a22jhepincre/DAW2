@@ -73,6 +73,53 @@
     </div>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/juego.js"></script>
+    <!-- <script>
+        let preguntas = <?= json_encode($datas['preguntes']); ?>; // Convertimos el array de preguntas de PHP a JS
+        let posicion = 0; // Posición inicial de la pregunta
+
+        function cargarPregunta(pos) {
+            document.getElementById('question-text').textContent = preguntas[pos]['pregunta'];
+
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+
+            preguntas[pos]['respostes'].forEach((respuesta) => {
+                let answerBtn = document.createElement('button');
+                answerBtn.className = 'btn btn-primary btn-lg w-75 py-10 mb-2';
+                answerBtn.textContent = respuesta['resposta'];
+                answerBtn.setAttribute('data-option-id', respuesta['id']);
+                answerBtn.addEventListener('click', function() {
+                    const correctAnswer = preguntas[posicion].respostes.find((resposta) => resposta.correcta == true);
+                    console.log(correctAnswer)
+                    siguientePregunta();
+                });
+                let colDiv = document.createElement('div');
+                colDiv.className = 'col-lg-5 col-12 mb-lg-4 mb-2';
+                colDiv.appendChild(answerBtn);
+                answersDiv.appendChild(colDiv);
+            });
+        }
+
+        function siguientePregunta() {
+            // Pasamos a la siguiente pregunta, si hay más
+            if (posicion < preguntas.length - 1) {
+                posicion++;
+                cargarPregunta(posicion);
+            } else {
+                window.location.href = "finish.php";
+            }
+            let containerProgressbar = document.querySelector('#containerProgressbar');
+                containerProgressbar.innerHTML = `
+                <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${posicion*10}" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar" style="width: ${posicion*10}%"></div>
+                </div>
+                `;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarPregunta(posicion); // Cargamos la primera pregunta al cargar la página
+        });
+    </script> -->
 </body>
 
 </html>
