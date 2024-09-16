@@ -6,9 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <style>
-        /* Centramos los elementos en la pantalla */
         .center-screen {
-            height: 100vh; /* Ocupa toda la pantalla */
+            height: 100vh; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,14 +18,13 @@
             background-color: #71CBF0;
         }
 
-        /* Ajuste de la imagen */
         .img-question {
-            height: auto; /* Mantiene la proporción */
-            width: 150px; /* Puedes ajustar este valor para probar el tamaño que mejor se vea */
+            height: auto; 
+            width: 150px; 
         }
 
         .question-text {
-            font-size: 1.5rem; /* Ajusta el tamaño del texto */
+            font-size: 1.5rem;
             font-weight: bold;
             color: white;
             padding-left: 5px;
@@ -38,14 +36,13 @@
             padding-bottom: 20px;
         }
 
-        /* Si quieres mantener proporciones entre texto e imagen en todos los tamaños */
         @media (min-width: 768px) {
             .img-question {
-                width: 240px; /* Ajuste para pantallas medianas y grandes */
+                width: 240px; 
             }
 
             .question-text {
-                font-size: 2rem; /* Ajuste para pantallas medianas y grandes */
+                font-size: 2rem; 
             }
         }
     </style>
