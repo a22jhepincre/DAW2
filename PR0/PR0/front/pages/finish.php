@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="center-screen">
-
+        <p class="fs-1 fw-bold text-white">Acabaste</p>
     </div>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
 </body>

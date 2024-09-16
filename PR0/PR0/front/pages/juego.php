@@ -112,16 +112,16 @@
             // Pasamos a la siguiente pregunta, si hay más
             if (posicion < preguntas.length - 1) {
                 posicion++;
-                let containerProgressbar = document.querySelector('#containerProgressbar');
+                cargarPregunta(posicion);
+            } else {
+                window.location.href = "finish.php";
+            }
+            let containerProgressbar = document.querySelector('#containerProgressbar');
                 containerProgressbar.innerHTML = `
                 <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${posicion*10}" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar" style="width: ${posicion*10}%"></div>
                 </div>
                 `;
-                cargarPregunta(posicion);
-            } else {
-                alert("Has terminado el cuestionario");
-            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
