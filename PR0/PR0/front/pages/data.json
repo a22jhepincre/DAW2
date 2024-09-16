@@ -80,6 +80,195 @@
           }
         ],
         "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 4,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 5,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 6,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 7,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 8,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 9,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
+      },
+      {
+        "id": 10,
+        "pregunta": "Quina marca de roba utilitza el lema 'Just Do It'?",
+        "respostes": [
+          {
+            "id": 1,
+            "resposta": "Nike",
+            "correcta": true
+          },
+          {
+            "id": 2,
+            "resposta": "Adidas",
+            "correcta": false
+          },
+          {
+            "id": 3,
+            "resposta": "Puma",
+            "correcta": false
+          },
+          {
+            "id": 4,
+            "resposta": "Reebok",
+            "correcta": false
+          }
+        ],
+        "imatge": "https://exemple.com/nike.jpg"
       }
     ]
   }
