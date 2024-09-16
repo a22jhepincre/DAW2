@@ -59,7 +59,7 @@
     <div class="center-screen w-100 text-center">
         <div class="row w-100">
             <div class="col-lg-12 col-12" id="containerProgressbar">
-                <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar" style="width: 0%"></div>
                 </div>
             </div>
