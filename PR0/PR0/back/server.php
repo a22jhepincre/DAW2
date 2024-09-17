@@ -15,6 +15,7 @@ function getPreguntas() {
         echo json_encode(["error" => "No se pudo leer el archivo de preguntas"]);
         exit;
     }
+    $_SESSION['preguntasFile'] = $preguntasFile;
 
     $preguntas = [];
 
@@ -33,10 +34,12 @@ function getPreguntas() {
             'imatge' => $pregunta['imatge']
         ];
     }
-
-    return $preguntas;
+    
+    $_SESSION['preguntasWithoutCorrect'] = $preguntas;
+    // return $preguntas;
 }
 
+getPreguntas();
 
 // Define las rutas para GET y POST
 switch ($requestMethod) {
@@ -59,14 +62,33 @@ function handleGetRequest($route) {
     switch ($route) {
         case 'preguntas':
             // http://localhost/PR0/PR0/back/server.php?route=preguntas preguntas sin la correcta
-            $preguntas = getPreguntas();
+            $preguntas = $_SESSION['preguntasFile'];
             header('Content-Type: application/json');
             echo json_encode($preguntas);
             break;
+            // http://localhost/PR0/PR0/back/server.php?route=initPregunta
+        case 'initPregunta':
+            $_SESSION['indicePreguntasWithoutCorrect'] = 0;
+            $id = $_SESSION['indicePreguntasWithoutCorrect'];
+            $_SESSION['indicePreguntasWithoutCorrect'] += 1;
+            $preguntas = $_SESSION['preguntasWithoutCorrect'];
+            if (isset($preguntas[$id])) {
+                header('Content-Type: application/json');
+                echo json_encode($preguntas[$id]);
+            } else {
+                http_response_code(404);
+                echo json_encode(["error" => "Pregunta no encontrada"]);
+            }
+            break;
         case 'pregunta':
             // http://localhost/PR0/PR0/back/server.php?route=pregunta&id=1 una pregunta dependiendo del indice
-            $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-            $preguntas = getPreguntas();
+            // $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+            if($_SESSION['indicePreguntasWithoutCorrect'] == null){
+                $_SESSION['indicePreguntasWithoutCorrect'] = 0;
+            }
+            $id = $_SESSION['indicePreguntasWithoutCorrect'];
+            $_SESSION['indicePreguntasWithoutCorrect'] += 1;
+            $preguntas = $_SESSION['preguntasWithoutCorrect'];
             if (isset($preguntas[$id])) {
                 header('Content-Type: application/json');
                 echo json_encode($preguntas[$id]);
