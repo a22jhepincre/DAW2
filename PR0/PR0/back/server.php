@@ -7,13 +7,9 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 // Recoge la ruta solicitada (por ejemplo, api.php?route=algo)
 $route = isset($_GET['route']) ? $_GET['route'] : '';
 
-// Función para leer preguntas desde un archivo JSON
-// Función para leer preguntas desde un archivo JSON
 function getPreguntas() {
-    // Decodifica el archivo preguntas.json
     $preguntasFile = json_decode(file_get_contents("data.json"), true);
     
-    // Verifica si la decodificación falló
     if ($preguntasFile === null) {
         http_response_code(500);
         echo json_encode(["error" => "No se pudo leer el archivo de preguntas"]);
@@ -53,7 +49,7 @@ switch ($requestMethod) {
         break;
 
     default:
-        http_response_code(405); // Método no permitido
+        http_response_code(405);
         echo json_encode(["error" => "Método no permitido"]);
         break;
 }
