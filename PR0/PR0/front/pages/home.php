@@ -43,7 +43,6 @@
             <div class="col-lg-12 col-12">
                 <img src="../img/question.png" />
             </div>
-            <p>aaa</p>
         </div>
         <div class="row w-100 mt-3">
             <div class="col-lg-12 col-12">
