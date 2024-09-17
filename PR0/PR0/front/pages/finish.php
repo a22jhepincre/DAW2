@@ -22,7 +22,13 @@
 <body>
     <div class="center-screen">
         <p class="fs-1 fw-bold text-white">Acabaste</p>
+        <div class="card">
+            <div class="card-body">
+                <p class="fs-3 fw-bold m-0" id="result"></p>
+            </div>
+        </div>
     </div>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/finish.js"></script>
 </body>
 </html>

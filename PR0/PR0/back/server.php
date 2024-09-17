@@ -15,11 +15,28 @@ function getPreguntas() {
         echo json_encode(["error" => "No se pudo leer el archivo de preguntas"]);
         exit;
     }
-    $_SESSION['preguntasFile'] = $preguntasFile;
+    $_SESSION['preguntasFileJSON'] = $preguntasFile;
+    $idsRandom = [];
+
+    while(count($idsRandom)<10){
+        $idRandom = rand(0,count($_SESSION['preguntasFileJSON']['preguntes'])-1);
+
+        if(!in_array($idRandom, $idsRandom)){
+            $idsRandom [] = $idRandom;
+        }
+    }
+
+    $preguntasRandom = [];
+
+    foreach($idsRandom as $id){
+        $preguntasRandom [] = $_SESSION['preguntasFileJSON']['preguntes'][$id];
+    }
+
+    $_SESSION['preguntasFile'] = $preguntasRandom;
 
     $preguntas = [];
 
-    foreach ($preguntasFile['preguntes'] as $pregunta) {
+    foreach ($preguntasRandom as $pregunta) {
         $questionWithoutCorrect = [];
         foreach($pregunta['respostes'] as $resposta){
             $questionWithoutCorrect [] = [
@@ -38,8 +55,6 @@ function getPreguntas() {
     $_SESSION['preguntasWithoutCorrect'] = $preguntas;
     // return $preguntas;
 }
-
-getPreguntas();
 
 // Define las rutas para GET y POST
 switch ($requestMethod) {
@@ -62,6 +77,7 @@ function handleGetRequest($route) {
     switch ($route) {
         case 'preguntas':
             // http://localhost/PR0/PR0/back/server.php?route=preguntas preguntas sin la correcta
+            getPreguntas();
             $preguntas = $_SESSION['preguntasFile'];
             header('Content-Type: application/json');
             echo json_encode($preguntas);
@@ -69,8 +85,10 @@ function handleGetRequest($route) {
             // http://localhost/PR0/PR0/back/server.php?route=initPregunta
         case 'initPregunta':
             $_SESSION['indicePreguntasWithoutCorrect'] = 0;
+            $_SESSION['answersSuccess'] = 0;
+            getPreguntas();
+
             $id = $_SESSION['indicePreguntasWithoutCorrect'];
-            $_SESSION['indicePreguntasWithoutCorrect'] += 1;
             $preguntas = $_SESSION['preguntasWithoutCorrect'];
             if (isset($preguntas[$id])) {
                 header('Content-Type: application/json');
@@ -81,21 +99,25 @@ function handleGetRequest($route) {
             }
             break;
         case 'pregunta':
-            // http://localhost/PR0/PR0/back/server.php?route=pregunta&id=1 una pregunta dependiendo del indice
+            // http://localhost/PR0/PR0/back/server.php?route=pregunta una pregunta dependiendo del indice
             // $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
             if($_SESSION['indicePreguntasWithoutCorrect'] == null){
                 $_SESSION['indicePreguntasWithoutCorrect'] = 0;
             }
-            $id = $_SESSION['indicePreguntasWithoutCorrect'];
             $_SESSION['indicePreguntasWithoutCorrect'] += 1;
+            $id = $_SESSION['indicePreguntasWithoutCorrect'];
             $preguntas = $_SESSION['preguntasWithoutCorrect'];
             if (isset($preguntas[$id])) {
                 header('Content-Type: application/json');
-                echo json_encode($preguntas[$id]);
+                echo json_encode(['preguntas'=>$preguntas[$id], 'status' => true]);
             } else {
-                http_response_code(404);
-                echo json_encode(["error" => "Pregunta no encontrada"]);
+                // http_response_code(404);
+                echo json_encode(["status" => false]);
             }
+            break;
+            // http://localhost/PR0/PR0/back/server.php?route=results
+        case 'results':
+            echo json_encode($_SESSION['answersSuccess']);
             break;
         default:
             // Ruta no encontrada
@@ -108,6 +130,40 @@ function handleGetRequest($route) {
 // Función para manejar las peticiones POST
 function handlePostRequest($route) {
     switch ($route) {
+        case 'verifyAnswer':
+            // Leer el contenido JSON desde la petición POST
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (is_null($data)) {
+                http_response_code(400); // Bad Request
+                echo json_encode(["error" => "No se han enviado datos o el formato es incorrecto"]);
+                return;
+            }
+            $idRespostaCorrecta = $data['idResposta'];
+
+            $id = $_SESSION['indicePreguntasWithoutCorrect'];
+            $preguntas = $_SESSION['preguntasFile'];
+            
+            $preguntaToVerify = $preguntas[$id];
+            
+            if($preguntaToVerify['respostes'][$idRespostaCorrecta-1]['correcta']){
+                $response = [
+                    "message" => "Has acertado",
+                    "status" => true
+                ];
+                $_SESSION['answersSuccess'] += 1;
+            }else{
+                $response = [
+                    "message" => "No has acertado",
+                    "status" => false
+                ];
+            }
+
+        
+            // Devolver la respuesta en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            break;
         default:
             // Ruta no encontrada para POST
             http_response_code(404);
