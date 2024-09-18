@@ -3,9 +3,9 @@
 function conectDB()
 {
     $server = "localhost";
-    $user = "a22jhepincre";
-    $password = "root";
-    $dbName = "PR0";
+    $user = "root";
+    $password = "";
+    $dbName = "pr0";
 
     return mysqli_connect($server, $user, $password, $dbName);
 }
@@ -15,6 +15,7 @@ function closeDB($conex)
     mysqli_close($conex);
 }
 
+//functions for user
 function addUser($name)
 {
     $conex = conectDB();
@@ -101,4 +102,31 @@ function setPoints($id, $points)
     return $response;
 }
 
+//functions for questions
+function getRandomQuestions(){
+    $conex = conectDB();
+
+    if (!$conex) {
+        return json_encode(['status' => 'error', 'message' => 'No se pudo conectar.']);
+    }
+
+    $result = mysqli_query($conex, "SELECT * FROM questions ORDER BY RAND() LIMIT 10;");
+    
+    if ($result === false) {
+        return json_encode(['status' => 'error', 'message' => 'Error al seleccionar usuarios: ' . mysqli_error($conex)]);
+    }
+
+    $questions = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $questions[] = $row;
+    }
+
+    $response = json_encode(['status' => 'success', 'questions' => $questions]);
+
+    closeDB($conex);
+
+    return $response;
+    
+}
 ?>

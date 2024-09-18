@@ -85,7 +85,8 @@ function handleGetRequest($route)
     switch ($route) {
         case 'preguntas':
             // http://localhost/PR0/PR0/back/server.php?route=preguntas preguntas sin la correcta
-            getPreguntas();
+            $_SESSION['preguntasFile'] = json_decode(getRandomQuestions(), true);
+            
             $preguntas = $_SESSION['preguntasFile'];
             header('Content-Type: application/json');
             echo json_encode($preguntas);
@@ -95,8 +96,7 @@ function handleGetRequest($route)
             $_SESSION['indicePreguntasWithoutCorrect'] = 0;
             $_SESSION['answersSuccess'] = 0;
             $_SESSION['start'] = getNow();
-
-            getPreguntas();
+            $_SESSION['preguntasWithoutCorrect'] = json_decode(getRandomQuestions(), true);
 
             $id = $_SESSION['indicePreguntasWithoutCorrect'];
             $preguntas = $_SESSION['preguntasWithoutCorrect'];
@@ -166,6 +166,7 @@ function handlePostRequest($route)
                 echo json_encode(["error" => "No se han enviado datos o el formato es incorrecto"]);
                 return;
             }
+            
             $idRespostaCorrecta = $data['idResposta'];
 
             $id = $_SESSION['indicePreguntasWithoutCorrect'];
