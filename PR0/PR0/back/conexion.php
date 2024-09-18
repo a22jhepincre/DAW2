@@ -15,7 +15,7 @@ function closeDB($conex)
     mysqli_close($conex);
 }
 
-function addUser($name, $email, $password)
+function addUser($name, $registrado)
 {
     $conex = conectDB();
 
@@ -23,13 +23,13 @@ function addUser($name, $email, $password)
         return json_encode(['status' => 'error', 'message' => 'No se pudo conectar.']);
     }
 
-    $stmt = mysqli_prepare($conex, "INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
+    $stmt = mysqli_prepare($conex, "INSERT INTO user (name, registrado) VALUES (?, ?)");
 
     if ($stmt === false) {
         return json_encode(['status' => 'error', 'message' => 'Error en la preparación de la consulta.']);
     }
 
-    mysqli_stmt_bind_param($stmt, "sss", $name, $email, $password);
+    mysqli_stmt_bind_param($stmt, "si", $name, $registrado);
 
     if (mysqli_stmt_execute($stmt)) {
         $response = json_encode(['status' => 'success', 'message' => 'Usuario añadido exitosamente.']);

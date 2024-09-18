@@ -192,10 +192,8 @@ function handlePostRequest($route)
             }
 
             $name = $data['name'];
-            $email = $data['email'];
-            $password = $data['password'];
 
-            $result = addUser($name, $email, $password);
+            $result = addUser($name, 1);
 
             echo json_encode($result);
             break;
