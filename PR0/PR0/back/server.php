@@ -148,6 +148,7 @@ function handleGetRequest($route)
 function handlePostRequest($route)
 {
     switch ($route) {
+        // http://localhost/PR0/PR0/back/server.php?route=verifyAnswer necesita data
         case 'verifyAnswer':
             // Leer el contenido JSON desde la petición POST
             $data = json_decode(file_get_contents('php://input'), true);
@@ -182,7 +183,7 @@ function handlePostRequest($route)
             header('Content-Type: application/json');
             echo json_encode($response);
             break;
-
+        // http://localhost/PR0/PR0/back/server.php?route=addUser necesita data
         case 'addUser':
             $data = json_decode(file_get_contents('php://input'), true);
             if (is_null($data)) {

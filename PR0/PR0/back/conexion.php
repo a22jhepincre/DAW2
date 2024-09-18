@@ -32,9 +32,9 @@ function addUser($name, $registrado)
     mysqli_stmt_bind_param($stmt, "si", $name, $registrado);
 
     if (mysqli_stmt_execute($stmt)) {
-        $response = json_encode(['status' => 'success', 'message' => 'Usuario añadido exitosamente.']);
+        $response = json_encode(['status' => 'success', 'message' => 'Usuario anadido exitosamente.']);
     } else {
-        $response = json_encode(['status' => 'error', 'message' => 'Error al añadir el usuario: ' . mysqli_error($conex)]);
+        $response = json_encode(['status' => 'error', 'message' => 'Error al anadir el usuario: ' . mysqli_error($conex)]);
     }
 
     mysqli_stmt_close($stmt);
