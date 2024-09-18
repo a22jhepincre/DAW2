@@ -131,10 +131,14 @@ function handleGetRequest($route)
             $startDate = strtotime($_SESSION['start']);
             $endDate = strtotime($_SESSION['end']);
             $diff = $endDate - $startDate;
+            $totalPoints = ($_SESSION['answersSuccess'] * 20) + $diff;
+            setPoints($_SESSION['idUser'], $totalPoints);
             echo json_encode(["nAnswersCorrect" => $_SESSION['answersSuccess'], 
             "startDate" => $_SESSION['start'], 
             "endDate" => $_SESSION['end'],
-            "diff" => $diff]);
+            "diff" => $diff,
+            'totalPoints' => $totalPoints,
+            'idUser' => $_SESSION['idUser']]);
             break;
         default:
             // Ruta no encontrada
@@ -193,9 +197,9 @@ function handlePostRequest($route)
             }
 
             $name = $data['name'];
-
-            $result = addUser($name, 1);
-
+            
+            $result = json_decode(addUser($name), true);
+            $_SESSION['idUser'] = $result['idUser'];
             echo json_encode($result);
             break;
         default:

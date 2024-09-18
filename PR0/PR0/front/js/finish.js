@@ -1,7 +1,10 @@
 let result;
+let totalPoints;
+
 
 function init(){
     result = document.querySelector('#result');
+    totalPoints = document.querySelector('#totalPoints');
 }
 
 let getResults = function(){
@@ -11,6 +14,7 @@ let getResults = function(){
         console.log(data)
 
         result.textContent = data['nAnswersCorrect'] + "/10";
+        totalPoints.textContent = data['totalPoints'];
     })
 }
 

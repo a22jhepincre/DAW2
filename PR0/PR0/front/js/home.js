@@ -1,14 +1,14 @@
-let btnRegister;
+let btnPlay;
 let nameInput;
 
 
 function init(){
-    btnRegister = document.querySelector('#btnRegister');
+    btnPlay = document.querySelector('#btnPlay');
     nameInput = document.querySelector('#name')
 }
 
-let initBtnRegister = function(){
-    btnRegister.addEventListener('click', function(){
+let initBtnPlay = function(){
+    btnPlay.addEventListener('click', function(){
         fetch('/DAW2/PR0/PR0/back/server.php?route=addUser', {
             method: 'POST',
             headers: {
@@ -29,5 +29,5 @@ let initBtnRegister = function(){
 
 document.addEventListener("DOMContentLoaded", function () {
     init();
-    initBtnRegister();
+    initBtnPlay();
 });
