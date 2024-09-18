@@ -140,6 +140,10 @@ function handleGetRequest($route)
             'totalPoints' => $totalPoints,
             'idUser' => $_SESSION['idUser']]);
             break;
+            // http://localhost/PR0/PR0/back/server.php?route=ranking
+        case 'ranking':
+            echo selectUser();
+            break;
         default:
             // Ruta no encontrada
             http_response_code(404);

@@ -59,6 +59,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <a class="btn btn-sm btn-primary" href="ranking.php">RANKING</a>
+            </div>
+        </div>
     </div>
 
     <script src="../bootstrap/js/bootstrap.min.js"></script>
