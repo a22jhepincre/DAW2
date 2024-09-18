@@ -10,7 +10,7 @@ let getResults = function(){
     .then(data => {
         console.log(data)
 
-        result.textContent = data + "/10";
+        result.textContent = data['nAnswersCorrect'] + "/10";
     })
 }
 
