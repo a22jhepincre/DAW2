@@ -1,4 +1,5 @@
 <?php
+include('conexion.php');
 // Inicia la sesión si es necesario
 session_start();
 
@@ -163,6 +164,23 @@ function handlePostRequest($route) {
             // Devolver la respuesta en formato JSON
             header('Content-Type: application/json');
             echo json_encode($response);
+            break;
+
+        case 'addUser':
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (is_null($data)) {
+                http_response_code(400); // Bad Request
+                echo json_encode(["error" => "No se han enviado datos o el formato es incorrecto"]);
+                return;
+            }
+
+            $name = $data['name'];
+            $email = $data['email'];
+            $password = $data['password'];
+
+            $result = addUser($name, $email, $password);
+
+            echo json_encode($result);
             break;
         default:
             // Ruta no encontrada para POST
