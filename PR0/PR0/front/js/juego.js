@@ -8,7 +8,7 @@ function init() {
 }
 
 let cargarQuestion = function (indice) {
-    fetch('/PR0/PR0/back/server.php?route=pregunta')
+    fetch('/DAW2/PR0/PR0/back/server.php?route=pregunta')
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -50,7 +50,7 @@ let cargarQuestion = function (indice) {
 }
 
 let initPregunta = function(){
-    fetch('/PR0/PR0/back/server.php?route=initPregunta')
+    fetch('/DAW2/PR0/PR0/back/server.php?route=initPregunta')
     .then(response => response.json())
     .then(data => {
         containerQuestion.textContent = data.pregunta;
@@ -86,7 +86,7 @@ let initPregunta = function(){
 }
 
 let verify = function (idResposta) {
-    fetch('/PR0/PR0/back/server.php?route=verifyAnswer', {
+    fetch('/DAW2/PR0/PR0/back/server.php?route=verifyAnswer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
