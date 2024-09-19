@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <style>
         .center-screen {
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;

@@ -27,6 +27,7 @@
                 <p class="fs-3 fw-bold m-0" id="result"></p>
                 <p class="fs-3 fw-bold m-0" id="totalPoints"></p>
                 <a href="home.php" class="btn btn-primary">Home</a>
+                <a href="juego.php" class="btn btn-primary">Retry</a>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 let containerQuestion;
 let containerAnswers;
 let indice = 0;
+let respostes = [];
 
 function init() {
     containerQuestion = document.querySelector('#containerQuestion');
@@ -29,7 +30,8 @@ let cargarQuestion = function (indice) {
     
                 btnsOption.forEach((btnOpcion) => {
                     btnOpcion.addEventListener('click', function () {
-                        verify(this.dataset.optionId)
+                        // verify(this.dataset.optionId)
+                        pushResposta(this.dataset.optionId);
                         cargarQuestion(indice)
                     });
                 })
@@ -43,6 +45,8 @@ let cargarQuestion = function (indice) {
     
                 indice++;
             }else{
+                // console.log(respostes)
+                verify();
                 window.location.href = "finish.php";
             }
         })
@@ -69,7 +73,8 @@ let initPregunta = function(){
 
             btnsOption.forEach((btnOpcion) => {
                 btnOpcion.addEventListener('click', function () {
-                    verify(this.dataset.optionId)
+                    // verify(this.dataset.optionId)
+                    pushResposta(this.dataset.optionId);
                     cargarQuestion(indice)
                 });
             })
@@ -85,19 +90,23 @@ let initPregunta = function(){
     })
 }
 
-let verify = function (idResposta) {
+let verify = function () {
     fetch('/DAW2/PR0/PR0/back/server.php?route=verifyAnswer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'idResposta': idResposta
+            'idsRespostes': respostes
         })
     })
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
+}
+
+let pushResposta = function (resposta){
+    respostes.push(resposta);
 }
 
 document.addEventListener("DOMContentLoaded", function () {

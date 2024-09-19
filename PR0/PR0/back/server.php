@@ -85,8 +85,9 @@ function handleGetRequest($route)
     switch ($route) {
         case 'preguntas':
             // http://localhost/PR0/PR0/back/server.php?route=preguntas preguntas sin la correcta
-            $_SESSION['preguntasFile'] = json_decode(getRandomQuestions(), true);
-            
+            $selectQuestions = json_decode(getRandomQuestions(), true);
+            $_SESSION['preguntasFile'] = $selectQuestions['questions'];
+
             $preguntas = $_SESSION['preguntasFile'];
             header('Content-Type: application/json');
             echo json_encode($preguntas);
@@ -96,7 +97,9 @@ function handleGetRequest($route)
             $_SESSION['indicePreguntasWithoutCorrect'] = 0;
             $_SESSION['answersSuccess'] = 0;
             $_SESSION['start'] = getNow();
-            $_SESSION['preguntasWithoutCorrect'] = json_decode(getRandomQuestions(), true);
+
+            $selectQuestions = json_decode(getRandomQuestions(), true);
+            $_SESSION['preguntasWithoutCorrect'] = $selectQuestions['questions'];
 
             $id = $_SESSION['indicePreguntasWithoutCorrect'];
             $preguntas = $_SESSION['preguntasWithoutCorrect'];
@@ -122,27 +125,31 @@ function handleGetRequest($route)
                 echo json_encode(['preguntas' => $preguntas[$id], 'status' => true]);
             } else {
                 // http_response_code(404);
+                $_SESSION['end'] = getNow();
                 echo json_encode(["status" => false]);
             }
             break;
             // http://localhost/PR0/PR0/back/server.php?route=results
         case 'results':
-            $_SESSION['end'] = getNow();
+            //calculate time
             $startDate = strtotime($_SESSION['start']);
             $endDate = strtotime($_SESSION['end']);
             $diff = $endDate - $startDate;
+
             $totalPoints = ($_SESSION['answersSuccess'] * 20) + $diff;
             setPoints($_SESSION['idUser'], $totalPoints);
-            echo json_encode(["nAnswersCorrect" => $_SESSION['answersSuccess'], 
-            "startDate" => $_SESSION['start'], 
-            "endDate" => $_SESSION['end'],
-            "diff" => $diff,
-            'totalPoints' => $totalPoints,
-            'idUser' => $_SESSION['idUser']]);
+            echo json_encode([
+                "nAnswersCorrect" => $_SESSION['answersSuccess'],
+                "startDate" => $_SESSION['start'],
+                "endDate" => $_SESSION['end'],
+                "diff" => $diff,
+                'totalPoints' => $totalPoints,
+                'idUser' => $_SESSION['idUser']
+            ]);
             break;
             // http://localhost/PR0/PR0/back/server.php?route=ranking
         case 'ranking':
-            echo selectUser();
+            echo getRanking();
             break;
         default:
             // Ruta no encontrada
@@ -156,7 +163,7 @@ function handleGetRequest($route)
 function handlePostRequest($route)
 {
     switch ($route) {
-        // http://localhost/PR0/PR0/back/server.php?route=verifyAnswer necesita data
+            // http://localhost/PR0/PR0/back/server.php?route=verifyAnswer necesita data
         case 'verifyAnswer':
             // Leer el contenido JSON desde la petición POST
             $data = json_decode(file_get_contents('php://input'), true);
@@ -166,33 +173,24 @@ function handlePostRequest($route)
                 echo json_encode(["error" => "No se han enviado datos o el formato es incorrecto"]);
                 return;
             }
-            
-            $idRespostaCorrecta = $data['idResposta'];
 
-            $id = $_SESSION['indicePreguntasWithoutCorrect'];
-            $preguntas = $_SESSION['preguntasFile'];
+            //calculate correct answers
+            $idRespostaCorrecta = $data['idsRespostes'];
 
-            $preguntaToVerify = $preguntas[$id];
-
-            if ($preguntaToVerify['respostes'][$idRespostaCorrecta - 1]['correcta']) {
-                $response = [
-                    "message" => "Has acertado",
-                    "status" => true
-                ];
-                $_SESSION['answersSuccess'] += 1;
-            } else {
-                $response = [
-                    "message" => "No has acertado",
-                    "status" => false
-                ];
+            $preguntas = $_SESSION['preguntasWithoutCorrect'];
+            // $_SESSION['answersSuccess'];
+            foreach ($preguntas as $key => $pregunta) {
+                $verify = json_decode(verfiyAnswer($idRespostaCorrecta[$key], $pregunta['id']), true);
+                if ($verify['correcta'] == 1) {
+                    $_SESSION['answersSuccess'] += 1;
+                }
             }
-
 
             // Devolver la respuesta en formato JSON
             header('Content-Type: application/json');
-            echo json_encode($response);
+            echo json_encode($_SESSION['answersSuccess']);
             break;
-        // http://localhost/PR0/PR0/back/server.php?route=addUser necesita data
+            // http://localhost/PR0/PR0/back/server.php?route=addUser necesita data
         case 'addUser':
             $data = json_decode(file_get_contents('php://input'), true);
             if (is_null($data)) {
@@ -202,7 +200,7 @@ function handlePostRequest($route)
             }
 
             $name = $data['name'];
-            
+
             $result = json_decode(addUser($name), true);
             $_SESSION['idUser'] = $result['idUser'];
             echo json_encode($result);
