@@ -8,55 +8,55 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 // Recoge la ruta solicitada (por ejemplo, api.php?route=algo)
 $route = isset($_GET['route']) ? $_GET['route'] : '';
 
-function getPreguntas()
-{
-    $preguntasFile = json_decode(file_get_contents("data.json"), true);
+// function getPreguntas()
+// {
+//     $preguntasFile = json_decode(file_get_contents("data.json"), true);
 
-    if ($preguntasFile === null) {
-        http_response_code(500);
-        echo json_encode(["error" => "No se pudo leer el archivo de preguntas"]);
-        exit;
-    }
-    $_SESSION['preguntasFileJSON'] = $preguntasFile;
-    $idsRandom = [];
+//     if ($preguntasFile === null) {
+//         http_response_code(500);
+//         echo json_encode(["error" => "No se pudo leer el archivo de preguntas"]);
+//         exit;
+//     }
+//     $_SESSION['preguntasFileJSON'] = $preguntasFile;
+//     $idsRandom = [];
 
-    while (count($idsRandom) < 10) {
-        $idRandom = rand(0, count($_SESSION['preguntasFileJSON']['preguntes']) - 1);
+//     while (count($idsRandom) < 10) {
+//         $idRandom = rand(0, count($_SESSION['preguntasFileJSON']['preguntes']) - 1);
 
-        if (!in_array($idRandom, $idsRandom)) {
-            $idsRandom[] = $idRandom;
-        }
-    }
+//         if (!in_array($idRandom, $idsRandom)) {
+//             $idsRandom[] = $idRandom;
+//         }
+//     }
 
-    $preguntasRandom = [];
+//     $preguntasRandom = [];
 
-    foreach ($idsRandom as $id) {
-        $preguntasRandom[] = $_SESSION['preguntasFileJSON']['preguntes'][$id];
-    }
+//     foreach ($idsRandom as $id) {
+//         $preguntasRandom[] = $_SESSION['preguntasFileJSON']['preguntes'][$id];
+//     }
 
-    $_SESSION['preguntasFile'] = $preguntasRandom;
+//     $_SESSION['preguntasFile'] = $preguntasRandom;
 
-    $preguntas = [];
+//     $preguntas = [];
 
-    foreach ($preguntasRandom as $pregunta) {
-        $questionWithoutCorrect = [];
-        foreach ($pregunta['respostes'] as $resposta) {
-            $questionWithoutCorrect[] = [
-                'id' => $resposta['id'],
-                'resposta' => $resposta['resposta']
-            ];
-        }
-        $preguntas[] = [
-            'id' => $pregunta['id'],
-            'pregunta' => $pregunta['pregunta'],
-            'respostes' => $questionWithoutCorrect,
-            'imatge' => $pregunta['imatge']
-        ];
-    }
+//     foreach ($preguntasRandom as $pregunta) {
+//         $questionWithoutCorrect = [];
+//         foreach ($pregunta['respostes'] as $resposta) {
+//             $questionWithoutCorrect[] = [
+//                 'id' => $resposta['id'],
+//                 'resposta' => $resposta['resposta']
+//             ];
+//         }
+//         $preguntas[] = [
+//             'id' => $pregunta['id'],
+//             'pregunta' => $pregunta['pregunta'],
+//             'respostes' => $questionWithoutCorrect,
+//             'imatge' => $pregunta['imatge']
+//         ];
+//     }
 
-    $_SESSION['preguntasWithoutCorrect'] = $preguntas;
-    // return $preguntas;
-}
+//     $_SESSION['preguntasWithoutCorrect'] = $preguntas;
+//     // return $preguntas;
+// }
 
 function getNow()
 {
