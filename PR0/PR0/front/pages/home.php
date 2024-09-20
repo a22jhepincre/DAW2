@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <div class="center-screen w-100 text-center">
+    <div class="center-screen w-100 text-center" id="content">
         <div class="row w-100">
             <div class="col-lg-12 col-12">
                 <img src="../img/question.png" class="img-fluid" />

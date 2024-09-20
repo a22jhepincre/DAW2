@@ -109,7 +109,7 @@ let pushResposta = function (resposta){
     respostes.push(resposta);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("SPAContentLoaded", function () {
     init();
 
     initPregunta();
