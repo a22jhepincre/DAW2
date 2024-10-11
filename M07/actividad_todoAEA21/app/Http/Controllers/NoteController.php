@@ -16,16 +16,16 @@ class NoteController extends Controller
     {
         $data = $request->validate([
             'idCategory'=>'required',
-            'name' => 'required',
-            'description' => 'optional',
+            'title' => 'required',
+            'description' => 'nullable',
         ],[
             'idCategory.required' => 'El campo id es obligatorio',
             'name.required' => 'El campo nombre es obligatorio'
         ]);
 
         $note = new Note();
-        $note->idUser = $data['idCategory'];
-        $note->name = $data['name'];
+        $note->idCategory = $data['idCategory'];
+        $note->title = $data['title'];
         $note->description = $data['description'];
 
         $note->save();

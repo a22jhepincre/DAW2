@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticatorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,9 @@ Route::prefix('user')->group(function () {
 
 //notes controller
 Route::prefix('note')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('note.index');
-    Route::get('/delete', [UserController::class, 'delete'])->name('note.delete');
-    Route::post('/store', [UserController::class, 'store'])->name('note.store');
-    Route::post('/update', [UserController::class, 'update'])->name('note.update');
+    Route::get('/', [NoteController::class, 'index'])->name('note.index');
+    Route::get('/delete', [NoteController::class, 'delete'])->name('note.delete');
+    Route::post('/store', [NoteController::class, 'store'])->name('note.store');
+    Route::post('/update', [NoteController::class, 'update'])->name('note.update');
 });
 

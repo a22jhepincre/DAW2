@@ -4,30 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        return view('Category.category');
+        $categories = Category::all();
+        return view('Category.category', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'idUser'=>'required',
             'name' => 'required'
         ],[
-            'idUser.required' => 'El campo id es obligatorio',
             'name.required' => 'El campo nombre es obligatorio'
         ]);
 
         $category = new Category();
-        $category->idUser = $data['idUser'];
+        $category->idUser = Auth::user()->id;
         $category->name = $data['name'];
 
         $category->save();
-        return response()->json(['status'=>'success', 'message'=>'Categoria creada', 'category'=>$category]);
+//        return response()->json(['status'=>'success', 'message'=>'Categoria creada', 'category'=>$category]);
+        return back()->with('success', 'Categoria creada!');
     }
 
     public function update(Request $request)

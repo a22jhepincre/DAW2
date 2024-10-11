@@ -30,7 +30,7 @@
                 <ul class="navbar-nav w-100" >
                     <li class="nav-item w-100 text-center" >
                         <a class="nav-link text-white fw-bold fs-3" href="javascript:;">
-                            ¡Hola {{\Illuminate\Support\Facades\Auth::user()->name}}!
+                            ¡Hello {{\Illuminate\Support\Facades\Auth::user()->name}}!
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -51,25 +51,67 @@
 
     <div class="p-4">
         <div class="row">
-            <a class="card col-lg-3 col-12 me-lg-4 me-2" style="height: 400px;width: 350px; background-color: #d5d5d5">
-                <div class="card-body d-flex justify-content-center align-items-center">
+            <button data-bs-toggle="modal" data-bs-target="#modal-new-category"
+                    class="card col-lg-3 col-12 me-lg-4 me-2"
+                    style="height: 400px;width: 350px; background-color: #d5d5d5">
+                <div class="card-body d-flex justify-content-center align-items-center w-100">
                     <i class="bi bi-plus-circle fs-3" style="color: #9b9b9b"></i>
                 </div>
-            </a>
+            </button>
 
-            <a class="card col-lg-3 col-12 me-lg-4 me-2" style="height: 400px;width: 350px;">
-                <div class="card-header">
-                    <div class="card-title">
-                        Lista de la compra
+            @forelse($categories as $category)
+                <a href="javascript:;" class="card col-lg-3 col-12 me-lg-4 me-2 text-decoration-none" style="height: 400px;width: 350px;">
+                    <div class="card-header">
+                        <h4 class="card-title m-0">
+                            {{$category->name}}
+                        </h4>
                     </div>
-                </div>
-                <div class="card-body d-flex justify-content-center align-items-center">
+                    @forelse($category->notes as $note)
+                        <div class="card-body ">
+                            Title:{{$note->title}}
+                            Desc:{{$note->description}}
+                        </div>
+                    @empty
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <p>No hay notas registradas.</p>
+                        </div>
+                    @endforelse
 
-                </div>
-            </a>
+                    </div>
+                </a>
+            @empty
+
+            @endforelse
         </div>
     </div>
 
+@endsection
+
+@section('page-modal')
+    <div class="modal fade" id="modal-new-category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Nueva Categoria</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form
+                        action="{{route('category.store')}}"
+                        method="POST">
+                        @csrf
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-book"></i></span>
+                            <input type="text" class="form-control" name="name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('page-script')
