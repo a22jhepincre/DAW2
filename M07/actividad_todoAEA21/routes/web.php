@@ -9,8 +9,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//autho
 Route::get('/login', [AuthenticatorController::class, 'login'])->name('login');
 Route::get('/register', [AuthenticatorController::class, 'register'])->name('register');
+Route::post('/authenticate', [AuthenticatorController::class, 'authenticate'])->name('authenticate');
 
 //category controller
 Route::prefix('category')->group(function () {

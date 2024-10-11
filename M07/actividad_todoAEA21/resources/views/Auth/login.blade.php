@@ -1,6 +1,6 @@
 @extends('Layouts.master')
 
-@section('page-styles')
+@section('page-style')
 <style>
     .gradient-custom-2 {
         /* fallback for old browsers */
@@ -42,27 +42,30 @@
                                              style="width: 185px;" alt="logo">
                                         <h4 class="mt-1 mb-5 pb-1">Lorem lorem lorem</h4>
                                     </div>
-
+                                    @if($errors->has('email'))
+                                        <div class="alert alert-danger">
+                                            {{ $errors->first('email') }}
+                                        </div>
+                                    @endif
                                     <form
-{{--                                        action="{{route()}}"--}}
-{{--                                        method="POST"--}}
+                                        action="{{route('authenticate')}}"
+                                        method="POST"
                                     >
                                         @csrf
                                         <p>Please login to your account</p>
 
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="email" id="form2Example11" class="form-control"
-                                                   placeholder="Phone number or email address" />
-                                            <label class="form-label" for="form2Example11">Username</label>
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                                            <label for="floatingInput">Email address</label>
                                         </div>
 
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" />
-                                            <label class="form-label" for="form2Example22">Password</label>
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                            <label for="floatingPassword">Password</label>
                                         </div>
 
-                                        <div class="text-center pt-1 mb-5 pb-1">
-                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Log
+                                        <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column">
+                                            <button class="btn btn-primary fa-lg gradient-custom-2 mb-3" type="submit">Log
                                                 in</button>
                                             <a class="text-muted" href="javascript:;">Forgot password?</a>
                                         </div>
@@ -92,6 +95,6 @@
     </section>
 @endsection
 
-@section('page-scripts')
+@section('page-script')
 <script src="{{asset('auth/login.js')}}"></script>
 @endsection
