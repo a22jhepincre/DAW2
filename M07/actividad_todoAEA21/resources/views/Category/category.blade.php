@@ -12,6 +12,33 @@
             /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
             background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
         }
+
+        .card-body {
+            height: calc(100% - 56px);
+            overflow-y: auto; /* Habilita el scroll vertical */
+            scrollbar-width: thin; /* Para navegadores Firefox */
+            scrollbar-color: #d3d3d3 #f1f1f1; /* Color del scrollbar */
+        }
+
+        .card-body::-webkit-scrollbar {
+            width: 8px; /* Ancho del scrollbar */
+        }
+
+        .card-body::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color de fondo del track del scrollbar */
+            border-radius: 10px; /* Bordes redondeados del track */
+        }
+
+        .card-body::-webkit-scrollbar-thumb {
+            background: #d3d3d3; /* Color del scrollbar (gris claro) */
+            border-radius: 10px; /* Bordes redondeados del thumb */
+        }
+
+        .card-body::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0; /* Color del scrollbar al pasar el mouse (gris más oscuro) */
+        }
+
+
     </style>
 @endsection
 
@@ -60,28 +87,42 @@
             </button>
 
             @forelse($categories as $category)
-                <a href="javascript:;" class="card col-lg-3 col-12 me-lg-4 me-2 text-decoration-none" style="height: 400px;width: 350px;">
-                    <div class="card-header">
+                <a href="javascript:;" class="card col-lg-3 col-12 me-lg-4 me-2 text-decoration-none p-0" style="height: 400px; width: 350px;">
+                    <div class="card-header bg-white d-flex justify-content-between">
                         <h4 class="card-title m-0">
                             {{$category->name}}
                         </h4>
+                        <button class="btn gradient-custom-2 btn-sm" id="btn-add-note" data-id-category="{{$category->id}}">
+                            <i class="bi bi-plus text-white"></i>
+                        </button>
                     </div>
-                    @forelse($category->notes as $note)
-                        <div class="card-body ">
-                            Title:{{$note->title}}
-                            Desc:{{$note->description}}
-                        </div>
-                    @empty
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <p>No hay notas registradas.</p>
-                        </div>
-                    @endforelse
-
+                    <div class="card-body" style="height: calc(100% - 56px); overflow-y: auto;">
+                        @forelse($category->notes as $note)
+                            <div class="card mb-2">
+                                <div class="card-body d-flex justify-content-between">
+                                    <p class="fs-6 fw-bold m-0">{{$note->title}}</p>
+                                    <div>
+                                        <button class="btn btn-sm btn-secondary btn-edit-note"
+                                                data-id-category="{{$category->id}}"
+                                                data-id-note="{{$note->id}}"
+                                                data-title-note="{{$note->title}}"
+                                                data-description-note="{{$note->description}}"
+                                                ><i class="bi bi-pencil-square"></i></button>
+                                        <button class="btn btn-sm btn-danger btn-delete-note"
+                                                data-id-category="{{$category->id}}"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <p>No hay notas registradas.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </a>
             @empty
-
             @endforelse
+
         </div>
     </div>
 
@@ -112,7 +153,39 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-note" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">New Note</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-note"
+                        action="{{route('note.store')}}"
+                        method="POST">
+                        @csrf
+
+                        <input value="" id="idCategory" name="idCategory" hidden/>
+                        <input value="" id="idNote" name="id" hidden/>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-book"></i></span>
+                            <input type="text" class="form-control" name="title" id="title" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <textarea class="form-control" name="description" id="description" aria-label="Description" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('page-script')
+    <script src="{{asset('cate/index.js')}}"></script>
 @endsection

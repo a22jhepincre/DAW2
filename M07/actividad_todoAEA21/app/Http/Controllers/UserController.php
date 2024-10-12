@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,25 +21,32 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
             'password' => 'required'
         ],
-        [
-            'name.required' => 'El campo nombre es obligatorio',
-            'email.required' => 'El campo email es obligatorio',
-            'password.required' => 'El campo password es obligatorio'
-        ]);
+            [
+                'username.required' => 'El campo nombre es obligatorio',
+                'email.required' => 'El campo email es obligatorio',
+                'email.email' => 'El campo email debe ser una dirección válida',
+                'password.required' => 'El campo password es obligatorio'
+            ]);
 
-        $user = new User();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = $data['password'];
+        try {
+            $user = new User();
+            $user->name = $data['username'];
+            $user->email = $data['email'];
+            $user->password = $data['password'];
+            $user->save();
 
-        $user->save();
+            Auth::login($user);
 
-        return response()->json(['status'=>'success', 'message'=>'Usuario añadido', 'user'=>$user]);
+            return redirect('/category')->with('success', 'Usuario registrado e iniciado sesión exitosamente');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Hubo un problema al registrar el usuario: ' . $e->getMessage()])->withInput();
+        }
     }
+
 
     public function update(Request $request)
     {

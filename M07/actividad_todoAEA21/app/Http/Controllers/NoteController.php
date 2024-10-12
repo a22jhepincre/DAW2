@@ -29,7 +29,9 @@ class NoteController extends Controller
         $note->description = $data['description'];
 
         $note->save();
-        return response()->json(['status'=>'success', 'message'=>'Nota creada', 'note'=>$note]);
+//        return response()->json(['status'=>'success', 'message'=>'Nota creada', 'note'=>$note]);
+        return back()->with('success', 'Categoria creada!');
+
     }
 
     public function update(Request $request)
@@ -44,7 +46,9 @@ class NoteController extends Controller
         $note->description = $description;
         $note->save();
 
-        return response()->json(['status'=>'success', 'message'=>'Nota actualizada', 'note'=>$note]);
+//        return response()->json(['status'=>'success', 'message'=>'Nota actualizada', 'note'=>$note]);
+        return back()->with('success', 'Categoria actualizada!');
+
     }
 
     public function delete($id)
