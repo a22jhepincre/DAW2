@@ -1,0 +1,59 @@
+#graella {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "lloc1          lloc2           lloc3"
+        "lloc4          lloc5           lloc6"
+        "lloc7          lloc8           lloc9";
+    margin: 100px;
+}
+
+#graella div {
+    background-color: rgb(173, 19, 179);
+    margin: 10px;
+}
+
+.titulo {
+    text-align: center;
+}
+
+
+#graella #pos1 .exemple {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#graella #pos2 .exemple {
+    text-decoration: line-through;
+}
+
+#graella #pos3 .exemple {
+    text-shadow: 2px 2px #ff0000;
+}
+
+#graella #pos4 .exemple {
+    text-align-last: justify;
+}
+
+#graella #pos5 .exemple {
+    text-align: right;
+}
+
+#pos1 {
+    grid-area: lloc2;
+}
+
+#pos2 {
+    grid-area: lloc4;
+}
+
+#pos3 {
+    grid-area: lloc5;
+}
+
+#pos4 {
+    grid-area: lloc6;
+}
+
+#pos5 {
+    grid-area: lloc8;
+}
