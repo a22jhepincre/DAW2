@@ -1,0 +1,36 @@
+<div id="app">
+
+    <ul>
+        <li v-for="(gato, index) in data.gatos" :key="index" @click="data.catActive = index">
+            {{ gato.name }}
+        </li>
+    </ul>
+
+    <div v-if="data.catActive != null" id="container-img" style="width: 200px; height: 200px">
+        <img :src="data.gatos[data.catActive].image" alt="Imagen del gato" @click="data.gatos[data.catActive].nclicks++;"/>
+        <p>{{data.gatos[data.catActive].nclicks}}</p>
+    </div>
+
+</div>
+
+<script type="module">
+    import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let data = ref({
+                catActive: null,
+                gatos: [
+                    { name: "Michifu",  image: "https://images.ctfassets.net/denf86kkcx7r/4IPlg4Qazd4sFRuCUHIJ1T/f6c71da7eec727babcd554d843a528b8/gatocomuneuropeo-97?fm=webp&w=612", nclicks: 0 },
+                    { name: "Minino",  image: "https://puppis.blog/wp-content/uploads/2022/02/abc-cuidado-de-los-gatos-min.jpg", nclicks: 0 },
+                    { name: "Garfield",  image: "https://clinicaveterinarium.es/wp-content/uploads/2023/11/lindo-gatito-gato-siames-interior.jpg", nclicks: 0 },
+                    { name: "LindoGatito", image: "https://static.fundacion-affinity.org/cdn/farfuture/46mZnLhAYw8xwZBGnHdtITnaZqhrx5cvHSN81eUMWzw/mtime:1528830293/sites/default/files/el-gato-necesita-tener-acceso-al-exterior.jpg", nclicks: 0 }
+                ]
+            });
+
+            return {
+                data
+            }
+        }
+    }).mount('#app')
+</script>

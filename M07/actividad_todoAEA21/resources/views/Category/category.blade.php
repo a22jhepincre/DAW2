@@ -45,29 +45,25 @@
 @section('content')
     <nav class="navbar navbar-expand-lg bg-body-tertiary gradient-custom-2">
         <div class="container-fluid">
-
             <a class="navbar-brand" href="#">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                                                  style="width: 80px;" alt="logo">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" style="width: 80px;" alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav w-100" >
-                    <li class="nav-item w-100 text-center" >
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item w-100 text-center">
                         <a class="nav-link text-white fw-bold fs-3" href="javascript:;">
-                            ¡Hello {{\Illuminate\Support\Facades\Auth::user()->name}}!
+                            ¡Hello {{ \Illuminate\Support\Facades\Auth::user()->name }}!
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="javascript:;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-fill fs-3 text-white"></i>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a></li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end"> <!-- Aquí se añade dropdown-menu-end -->
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Log out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -78,7 +74,7 @@
 
     <div class="p-4">
         <div class="row">
-            <button data-bs-toggle="modal" data-bs-target="#modal-new-category"
+            <button id="btn-add-category"
                     class="card col-lg-3 col-12 me-lg-4 me-2"
                     style="height: 400px;width: 350px; background-color: #d5d5d5">
                 <div class="card-body d-flex justify-content-center align-items-center w-100">
@@ -89,18 +85,38 @@
             @forelse($categories as $category)
                 <a href="javascript:;" class="card col-lg-3 col-12 me-lg-4 me-2 text-decoration-none p-0" style="height: 400px; width: 350px;">
                     <div class="card-header bg-white d-flex justify-content-between">
-                        <h4 class="card-title m-0">
+                        <h4 class="card-title m-0 w-50">
                             {{$category->name}}
                         </h4>
-                        <button class="btn gradient-custom-2 btn-sm" id="btn-add-note" data-id-category="{{$category->id}}">
-                            <i class="bi bi-plus text-white"></i>
-                        </button>
+                        <form id="delete-category-form-{{$category->id}}" method="POST" action="{{ route('category.delete', ['id' => $category->id]) }}" class="d-none">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                        <div>
+                            <button class="btn gradient-custom-2 btn-sm btn-add-note" data-id-category="{{$category->id}}">
+                                <i class="bi bi-plus text-white"></i>
+                            </button>
+                            <button class="btn gradient-custom-2 btn-sm btn-edit-category"
+                                    data-id-category="{{$category->id}}"
+                                    data-name-category="{{$category->name}}">
+                                <i class="bi bi-pencil-square text-white"></i>
+                            </button>
+                            <button class="btn gradient-custom-2 btn-sm btn-delete-category"
+                                    data-id-category="{{$category->id}}">
+                                <i class="bi bi-trash text-white"></i>
+                            </button>
+                        </div>
+
                     </div>
                     <div class="card-body" style="height: calc(100% - 56px); overflow-y: auto;">
                         @forelse($category->notes as $note)
-                            <div class="card mb-2">
+                            <div class="card mb-2" id="note-{{$note->id}}">
                                 <div class="card-body d-flex justify-content-between">
-                                    <p class="fs-6 fw-bold m-0">{{$note->title}}</p>
+                                    <div>
+                                        <p class="fs-6 fw-bold m-0">{{$note->title}}</p>
+                                        <p class="fs-8 m-0">{{$note->description}}</p>
+                                    </div>
+
                                     <div>
                                         <button class="btn btn-sm btn-secondary btn-edit-note"
                                                 data-id-category="{{$category->id}}"
@@ -108,8 +124,15 @@
                                                 data-title-note="{{$note->title}}"
                                                 data-description-note="{{$note->description}}"
                                                 ><i class="bi bi-pencil-square"></i></button>
+
+                                        <form id="delete-note-form-{{$note->id}}" method="POST" action="{{ route('note.delete', ['id' => $note->id]) }}" class="d-none">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                         <button class="btn btn-sm btn-danger btn-delete-note"
-                                                data-id-category="{{$category->id}}"><i class="bi bi-trash"></i></button>
+                                                data-id-category="{{$category->id}}"
+                                                data-id-note="{{$note->id}}"
+                                                ><i class="bi bi-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -125,11 +148,10 @@
 
         </div>
     </div>
-
 @endsection
 
 @section('page-modal')
-    <div class="modal fade" id="modal-new-category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -137,13 +159,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form
+                    <form id="form-category"
                         action="{{route('category.store')}}"
                         method="POST">
                         @csrf
+                        <input value="" id="id-category" name="id" hidden/>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="bi bi-book"></i></span>
-                            <input type="text" class="form-control" name="name" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="name" id="name" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save</button>

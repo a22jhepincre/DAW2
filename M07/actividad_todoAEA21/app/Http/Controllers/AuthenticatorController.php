@@ -27,12 +27,22 @@ class AuthenticatorController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
 
-            return redirect()->intended('category');
+            $token = $user->createToken('auth_token')->plainTextToken;
+//            return redirect()->intended('category');
+            return response()->json(['status' => 'success', 'token' => $token, 'user' => $user]);
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/login')->with('success', 'Has cerrado sesión con éxito.');
     }
 }

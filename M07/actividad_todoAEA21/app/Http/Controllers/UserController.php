@@ -39,9 +39,12 @@ class UserController extends Controller
             $user->password = $data['password'];
             $user->save();
 
+            $token = $user->createToken('auth_token')->plainTextToken;
             Auth::login($user);
 
-            return redirect('/category')->with('success', 'Usuario registrado e iniciado sesión exitosamente');
+//            return redirect('/category')->with('success', 'Usuario registrado e iniciado sesión exitosamente');
+            return response()->json(['status' => 'success', 'token' => $token, 'user' => $user]);
+
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Hubo un problema al registrar el usuario: ' . $e->getMessage()])->withInput();
         }

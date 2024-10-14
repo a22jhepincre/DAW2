@@ -55,6 +55,7 @@ class NoteController extends Controller
     {
         $note = Note::findOrfail($id);
         $note->delete();
-        return response()->json(['status'=>'success', 'message'=>'Categoria eliminada', 'note'=>$note]);
+//        return response()->json(['status'=>'success', 'message'=>'Categoria eliminada', 'note'=>$note]);
+        return back()->with('success', 'Categoria eliminada!');
     }
 }
