@@ -11,26 +11,48 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('idUser', Auth::id())->get();
         return view('Category.category', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required'
-        ],[
-            'name.required' => 'El campo nombre es obligatorio'
-        ]);
+        try {
+            // Validar los datos de entrada
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+            ], [
+                'name.required' => 'El campo nombre es obligatorio',
+                'name.string' => 'El nombre debe ser una cadena de texto.',
+                'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+            ]);
 
-        $category = new Category();
-        $category->idUser = Auth::user()->id;
-        $category->name = $data['name'];
+            // Crear la nueva categoría
+            $category = new Category();
+            $category->idUser = Auth::id();
+            $category->name = $data['name'];
+            $category->save();
 
-        $category->save();
-//        return response()->json(['status'=>'success', 'message'=>'Categoria creada', 'category'=>$category]);
-        return back()->with('success', 'Categoria creada!');
+            // Renderizar la vista de la tarjeta de categoría
+            $cardTemplate = view('Category.templates.card-category', compact('category'))->render();
+
+            // Devolver la respuesta JSON
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Categoría creada',
+                'category' => $category,
+                'cardTemplate' => $cardTemplate,
+            ]);
+        } catch (\Exception $e) {
+            // Manejar el error y devolver un JSON con un mensaje de error
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500); // Cambiar el código de estado si es necesario
+        }
     }
+
+
 
     public function update(Request $request)
     {
@@ -42,8 +64,8 @@ class CategoryController extends Controller
         $category->name = $name;
         $category->save();
 
-//        return response()->json(['status'=>'success', 'message'=>'Categoria actualizada', 'category'=>$category]);
-        return back()->with('success', 'Categoria editada!');
+        return response()->json(['status'=>'success', 'message'=>'Categoria actualizada', 'category'=>$category]);
+//        return back()->with('success', 'Categoria editada!');
 
     }
 
@@ -56,8 +78,8 @@ class CategoryController extends Controller
 
         $category = Category::findOrfail($id);
         $category->delete();
-//        return response()->json(['status'=>'success', 'message'=>'Categoria eliminada', 'category'=>$category]);
-        return back()->with('success', 'Categoria eliminada!');
+        return response()->json(['status'=>'success', 'message'=>'Categoria eliminada', 'category'=>$category]);
+//        return back()->with('success', 'Categoria eliminada!');
 
     }
 }

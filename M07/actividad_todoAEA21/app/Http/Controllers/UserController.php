@@ -18,38 +18,6 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'username' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ],
-            [
-                'username.required' => 'El campo nombre es obligatorio',
-                'email.required' => 'El campo email es obligatorio',
-                'email.email' => 'El campo email debe ser una dirección válida',
-                'password.required' => 'El campo password es obligatorio'
-            ]);
-
-        try {
-            $user = new User();
-            $user->name = $data['username'];
-            $user->email = $data['email'];
-            $user->password = $data['password'];
-            $user->save();
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-            Auth::login($user);
-
-//            return redirect('/category')->with('success', 'Usuario registrado e iniciado sesión exitosamente');
-            return response()->json(['status' => 'success', 'token' => $token, 'user' => $user]);
-
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Hubo un problema al registrar el usuario: ' . $e->getMessage()])->withInput();
-        }
-    }
-
 
     public function update(Request $request)
     {

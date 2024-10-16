@@ -1,13 +1,16 @@
 //declarar variables
-
+const token = window.authToken; // Acceder al token
 let btnsAddNote;
 let btnsEditNote;
 let btnsDeleteNote;
 let formNote;
 let formCategory;
-let btnAddCategory;
+let btnOpenModalAddCategory;
 let btnsEditCategory;
 let btnsDeleteCategory;
+let btnAddCategory
+let modalCategory;
+let btnUpdateCategory;
 
 //funcion init donde busca en el documento las variables
 function init(){
@@ -16,20 +19,46 @@ function init(){
     btnsDeleteNote = document.querySelectorAll('.btn-delete-note');
     formNote = document.querySelector('#form-note');
     formCategory = document.querySelector('#form-category');
-    btnAddCategory = document.querySelector('#btn-add-category');
+    btnOpenModalAddCategory = document.querySelector('#btn-open-modal-add-category');
     btnsEditCategory = document.querySelectorAll('.btn-edit-category');
     btnsDeleteCategory = document.querySelectorAll('.btn-delete-category');
+    btnAddCategory = document.querySelector('#btn-add-category');
+    btnUpdateCategory = document.querySelector('#btn-update-category');
+    modalCategory = new bootstrap.Modal(document.querySelector('#modal-category'))
+    console.log(token)
 }
 
 
 //funciones
-let initBtnAddCategory = function (){
+let initBtnOpenModalAddCategory = function (){
+    btnOpenModalAddCategory.addEventListener('click', function (){
+        // formCategory.action = 'http://127.0.0.1:8000/category/store'
+        btnUpdateCategory.classList.add('d-none');
+        btnAddCategory.classList.remove('d-none');
+        modalCategory.show();
+    });
+}
+
+let initBtnSubmitCategory = function (){
     btnAddCategory.addEventListener('click', function (){
-        formCategory.action = 'http://127.0.0.1:8000/category/store'
-        let modal = new bootstrap.Modal(document.querySelector('#modal-category'));
+        fetch('/api/category/store', {
+            method:'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: document.querySelector('#name').value // O lo que desees enviar
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.querySelector('#container-card-categories').innerHTML += data.cardTemplate;
 
-        modal.show();
-
+                modalCategory.hide();
+            })
+            .catch(error => console.error('Error:', error));
     });
 }
 
@@ -38,13 +67,34 @@ let initBtnsEditCategory = function (){
         btnEditCategory.addEventListener('click', function (){
             document.querySelector('#id-category').value = this.dataset.idCategory;
             document.querySelector('#name').value = this.dataset.nameCategory;
-            formCategory.action = 'http://127.0.0.1:8000/category/update'
-
-            let modal = new bootstrap.Modal(document.querySelector('#modal-category'));
-
-            modal.show();
+            btnUpdateCategory.classList.remove('d-none');
+            btnAddCategory.classList.add('d-none');
+            modalCategory.show();
         });
     }))
+}
+
+let initBtnUpdateCategory = function (){
+    btnUpdateCategory.addEventListener('click', function (){
+        fetch('/api/category/update', {
+            method:'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: document.querySelector('#id-category').value,
+                name: document.querySelector('#name').value // O lo que desees enviar
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.querySelector('#category-name-'+data.category.id).textContent = data.category.name;
+                modalCategory.hide();
+            })
+            .catch(error => console.error('Error:', error));
+    });
 }
 
 let initBtnsDeleteCategory = function (){
@@ -60,7 +110,22 @@ let initBtnsDeleteCategory = function (){
                 cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.querySelector('#delete-category-form-'+idCategoria).submit();
+                    // document.querySelector('#delete-category-form-'+idCategoria).submit();
+                    fetch('/api/category/delete/'+idCategoria, {
+                        method:'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: null
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            document.querySelector('#card-category-'+idCategoria).remove();
+                        })
+                        .catch(error => console.error('Error:', error));
+
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     console.log("Action cancelled");
                 }
@@ -128,7 +193,9 @@ document.addEventListener('DOMContentLoaded', function (){
     initBtnAddNote();
     initBtnEditNote();
     initBtnDeleteNote();
-    initBtnAddCategory();
+    initBtnOpenModalAddCategory();
     initBtnsEditCategory();
     initBtnsDeleteCategory();
+    initBtnSubmitCategory();
+    initBtnUpdateCategory();
 });

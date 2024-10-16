@@ -13,24 +13,30 @@
     <!-- Aquí se usa el componente 'MyComponent' -->
     <nav-bar></nav-bar>
 
+    <my-component></my-component>
+
 
 </div>
 
 <script type="module">
     import { createApp, ref, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
     import { NavBar } from './components/navBar.js'
+    import { MyComponent } from './components/miComponente1.js'
+    // import router from './router/router.js'
 
     // Crear la aplicación y registrar el componente
     createApp({
         components: {
-            NavBar
+            NavBar, MyComponent
         },
         setup(){
 
             return {
             }
         }
-    }).mount('#app')
+    })
+        // .use(router)
+        .mount('#app')
 </script>
 </body>
 </html>

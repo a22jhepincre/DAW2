@@ -1,4 +1,4 @@
-import { defineComponent, defineAsyncComponent, ref, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+import { defineComponent, defineAsyncComponent, ref, reactive, onBeforeMount } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
 export const NavBar = defineAsyncComponent(() =>
     Promise.all([
@@ -6,6 +6,13 @@ export const NavBar = defineAsyncComponent(() =>
         Promise.resolve(defineComponent({
             name: 'NavBar',
             setup() {
+
+                onBeforeMount(async () => {
+
+                });
+
+
+                //devolver datos para el template
                 return {
 
                 }

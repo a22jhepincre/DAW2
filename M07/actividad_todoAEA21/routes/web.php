@@ -15,6 +15,7 @@ Route::get('/', function () {
 Route::get('/login', [AuthenticatorController::class, 'login'])->name('login');
 Route::get('/register', [AuthenticatorController::class, 'register'])->name('register');
 Route::post('/authenticate', [AuthenticatorController::class, 'authenticate'])->name('authenticate');
+Route::post('/create-credentials', [AuthenticatorController::class, 'createCredentials'])->name('create.credentials');
 Route::get('/logout', [AuthenticatorController::class, 'logout'])->name('logout');
 
 // Agrupar las rutas protegidas con middleware 'auth'
@@ -32,7 +33,6 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('/delete', [UserController::class, 'delete'])->name('user.delete');
-        Route::post('/store', [UserController::class, 'store'])->name('user.store');
         Route::post('/update', [UserController::class, 'update'])->name('user.update');
     });
 

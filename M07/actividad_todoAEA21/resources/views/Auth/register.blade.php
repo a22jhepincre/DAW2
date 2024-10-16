@@ -52,7 +52,7 @@
                                         </div>
                                     @endif
                                     <form
-                                        action="{{route('user.store')}}"
+                                        action="{{route('create.credentials')}}"
                                         method="POST"
                                     >
                                         @csrf

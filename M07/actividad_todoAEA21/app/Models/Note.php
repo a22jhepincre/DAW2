@@ -8,5 +8,5 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Note extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory;
 }
