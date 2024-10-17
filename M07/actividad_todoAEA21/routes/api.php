@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/user', function (Request $request) {
 //    return $request->user();
 //})->middleware('auth:sanctum');
+Route::get('/category', [CategoryController::class, 'getCategories'])->name('category.index');
+
 
 Route::middleware('auth:sanctum')->group(function () {
     // Rutas para el controlador de categorías
     Route::prefix('category')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('category.index');
         Route::post('/delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
         Route::post('/store', [CategoryController::class, 'store'])->name('category.store');
         Route::post('/update', [CategoryController::class, 'update'])->name('category.update');

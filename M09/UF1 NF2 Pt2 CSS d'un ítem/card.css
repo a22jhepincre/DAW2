@@ -1,0 +1,120 @@
+body{
+    font-family: Arial, Helvetica, Sans-serif, serif;
+
+}
+
+.container{
+    padding-left: 10%;
+    padding-right: 10%;
+    border: 1px solid;
+}
+
+.item{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #c5c5c5;
+    box-shadow: 4px 4px #949494;
+    border-radius: 4px;
+}
+
+.item label {
+    transition: 0.1s ease-in;
+    display: none;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    background-color: rgba(10, 83, 190, 0.6); /* 0.6 is the opacity level */
+    color: white;
+    font-weight: lighter;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.item:hover {
+    transition: 0.1s ease-in;
+    box-shadow: 10px 10px #949494;
+}
+
+.item:hover label{
+    transition: 0.1s ease-in;
+    display: block;
+}
+
+.butons{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    gap:3px;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.butons input{
+    padding: 0.3rem 0.3rem;
+}
+
+.butons input[type="button"]{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border:0;
+    background-color: #0d6efd;
+    color:white;
+    font-size: 1.2rem;
+}
+
+.butons input[type="text"] {
+    max-width: 20px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Black background with 30% opacity */
+    color: white;
+}
+
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px; /* This adds space between columns, similar to Bootstrap's gutters */
+}
+
+/* Estilos generales (aplicados en todos los dispositivos) */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-12 { grid-column: span 12; }
+
+/* Estilos para dispositivos móviles (pantallas de hasta 767px de ancho) */
+@media (max-width: 767px) {
+
+}
+
+/* Estilos para pantallas más grandes (desktop: pantallas de 768px en adelante) */
+@media (min-width: 768px) {
+    .col-lg-1 { grid-column: span 1; }
+    .col-lg-2 { grid-column: span 2; }
+    .col-lg-3 { grid-column: span 3; }
+    .col-lg-4 { grid-column: span 4; }
+    .col-lg-5 { grid-column: span 5; }
+    .col-lg-6 { grid-column: span 6; }
+    .col-lg-7 { grid-column: span 7; }
+    .col-lg-8 { grid-column: span 8; }
+    .col-lg-9 { grid-column: span 9; }
+    .col-lg-10 { grid-column: span 10; }
+    .col-lg-11 { grid-column: span 11; }
+    .col-lg-12 { grid-column: span 12; }
+}ol-11 { grid-column: span 11; }
+.c

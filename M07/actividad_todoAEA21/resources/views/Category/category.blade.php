@@ -63,7 +63,9 @@
                             <i class="bi bi-person-fill fs-3 text-white"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end"> <!-- Aquí se añade dropdown-menu-end -->
+                            <li><a class="dropdown-item" href="{{ route('plans.index') }}">Plans</a></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Log out</a></li>
+
                         </ul>
                     </li>
                 </ul>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticatorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::get('/register', [AuthenticatorController::class, 'register'])->name('reg
 Route::post('/authenticate', [AuthenticatorController::class, 'authenticate'])->name('authenticate');
 Route::post('/create-credentials', [AuthenticatorController::class, 'createCredentials'])->name('create.credentials');
 Route::get('/logout', [AuthenticatorController::class, 'logout'])->name('logout');
+Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 
 // Agrupar las rutas protegidas con middleware 'auth'
 Route::middleware(['auth'])->group(function () {

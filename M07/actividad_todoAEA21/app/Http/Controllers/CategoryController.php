@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class CategoryController extends Controller
 {
@@ -13,6 +15,11 @@ class CategoryController extends Controller
     {
         $categories = Category::where('idUser', Auth::id())->get();
         return view('Category.category', compact('categories'));
+    }
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
     public function store(Request $request)
