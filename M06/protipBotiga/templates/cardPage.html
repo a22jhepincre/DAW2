@@ -1,0 +1,9 @@
+<div>
+    <h2>Carrito</h2>
+    <ul>
+        <li v-for="(product, index) in products" :key="index">
+            {{ product.title }} - {{ product.price }}€
+            <img :src="product.image" alt="Imagen del producto" style="width: 50px; height: auto;"/>
+        </li>
+    </ul>
+</div>
