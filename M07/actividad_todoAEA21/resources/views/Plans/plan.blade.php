@@ -71,8 +71,8 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
+    <div class="container" style="padding-top: 4rem;">
+        <div class="row pt-10">
             @forelse($plans as $key=>$plan)
                 <div class="col-lg-3">
                     <div class="card">
@@ -88,9 +88,60 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div>
-                                
+                        <div class="card-body d-grid gap-2">
+                            <div style="height: 60px">
+                                {{$plan->description}}
+                            </div>
+                            <hr>
+                            <div class="fs-6 d-flex justify-content-between">
+                                <p class="m-0 fw-semibold">Categorias</p>
+                                @if($plan->categories !== null)
+                                    <p class="m-0">{{$plan->categories}}</p>
+                                @else
+                                    <i class="bi bi-infinity"></i>
+                                @endif
+                            </div>
+
+                            <div class="fs-6 d-flex justify-content-between">
+                                <p class="m-0 fw-semibold">Notes</p>
+                                @if($plan->note_limit_by_category !== null)
+                                    <p class="m-0">{{$plan->note_limit_by_category}}</p>
+                                @else
+                                    <i class="bi bi-infinity"></i>
+                                @endif
+                            </div>
+
+                            <div class="fs-6 d-flex justify-content-between">
+                                <p class="m-0 fw-semibold">Categorias</p>
+                                @if($plan->collaboration)
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                @else
+                                    <i class="bi bi-x-circle-fill text-danger"></i>
+                                @endif
+                            </div>
+
+                            <div class="fs-6 d-flex justify-content-between">
+                                <p class="m-0 fw-semibold">File attachments</p>
+                                @if($plan->file_attachments)
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                @else
+                                    <i class="bi bi-x-circle-fill text-danger"></i>
+                                @endif
+                            </div>
+
+                            <div class="fs-6 d-flex justify-content-between">
+                                <p class="m-0 fw-semibold">Priority support</p>
+                                @if($plan->priority_support)
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                @else
+                                    <i class="bi bi-x-circle-fill text-danger"></i>
+                                @endif
+                            </div>
+
+                            <div class="container-button w-100">
+                                <button class="w-100 btn btn-primary btn-buy-plan">
+                                    Buy now
+                                </button>
                             </div>
                         </div>
                     </div>

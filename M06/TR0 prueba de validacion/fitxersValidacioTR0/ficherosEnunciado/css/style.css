@@ -1,0 +1,62 @@
+body{
+        background: #F4F1EA;
+}
+
+.w-100{
+        width: 100%;
+}
+
+.w-75{
+        width: 75%;
+}
+
+.w-50{
+        width: 50%;
+}
+
+.w-25{
+        width: 25%;
+}
+
+.p-4{
+        padding: 4rem;
+}
+.row {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 20px; /* This adds space between columns, similar to Bootstrap's gutters */
+}
+
+/* Estilos generales (aplicados en todos los dispositivos) */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-12 { grid-column: span 12; }
+
+/* Estilos para dispositivos móviles (pantallas de hasta 767px de ancho) */
+@media (max-width: 767px) {
+
+}
+
+/* Estilos para pantallas más grandes (desktop: pantallas de 768px en adelante) */
+@media (min-width: 768px) {
+        .col-lg-1 { grid-column: span 1; }
+        .col-lg-2 { grid-column: span 2; }
+        .col-lg-3 { grid-column: span 3; }
+        .col-lg-4 { grid-column: span 4; }
+        .col-lg-5 { grid-column: span 5; }
+        .col-lg-6 { grid-column: span 6; }
+        .col-lg-7 { grid-column: span 7; }
+        .col-lg-8 { grid-column: span 8; }
+        .col-lg-9 { grid-column: span 9; }
+        .col-lg-10 { grid-column: span 10; }
+        .col-lg-11 { grid-column: span 11; }
+        .col-lg-12 { grid-column: span 12; }
+}
