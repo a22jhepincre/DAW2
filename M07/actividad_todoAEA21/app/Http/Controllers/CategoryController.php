@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Note;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -19,7 +20,8 @@ class CategoryController extends Controller
     public function getCategories()
     {
         $categories = Category::all();
-        return response()->json($categories);
+        $pdf = Pdf::loadView('Category.pdf', compact('categories'));
+        return $pdf->download('pdf.pdf');
     }
 
     public function store(Request $request)
