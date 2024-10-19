@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/M07/todo_Project_laravel_1/todo_ej1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PR1_TAKEAWAY_TESTS/back/api_takeaway_test" vcs="Git" />
   </component>
 </project>
