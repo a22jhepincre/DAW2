@@ -56,7 +56,7 @@ export const RegisterPage = defineAsyncComponent(() =>
                     emit('updatePage', 'login');
                 };
 
-                const showFormData = async () => {
+                const register = async () => {
                     validateUsername();
                     validateEmail();
                     validatePassword();
@@ -77,7 +77,7 @@ export const RegisterPage = defineAsyncComponent(() =>
                     formData,
                     errors,
                     goToLogin,
-                    showFormData,
+                    register,
                     validateUsername,
                     validateEmail,
                     validatePassword,

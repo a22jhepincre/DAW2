@@ -18,7 +18,7 @@ class AuthenticatorController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+//            $request->session()->regenerate();
             $user = Auth::user();
 
             $token = $user->createToken('auth_token')->plainTextToken;

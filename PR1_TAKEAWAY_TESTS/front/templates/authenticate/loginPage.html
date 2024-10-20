@@ -16,17 +16,17 @@
                                     <p>Please login to your account</p>
 
                                     <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" v-model="formData.email" @blur="validateEmail">
                                         <label for="floatingInput">Email address</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" v-model="formData.password" @blur="validatePassword">
                                         <label for="floatingPassword">Password</label>
                                     </div>
 
                                     <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column">
-                                        <button class="btn btn-primary fa-lg gradient-custom-2 mb-3" type="submit">Log
+                                        <button class="btn btn-primary fa-lg gradient-custom-2 mb-3" type="button" @click="login" :disabled="!isFormValid">Log
                                             in</button>
                                     </div>
 

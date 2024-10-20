@@ -23,6 +23,10 @@
         <register-page :page="page" @update-page="page = $event"></register-page>
     </div>
 
+    <div v-if="page === 'home'">
+        <home-page :page="page" @update-page="page = $event"></home-page>
+    </div>
+
 </div>
 
 
@@ -30,10 +34,11 @@
     import { createApp, ref, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
     import { LoginPage } from "./components/LoginPage.js";
     import { RegisterPage } from "./components/RegisterPage.js";
+    import { HomePage } from "./components/HomePage.js";
     // Crear la aplicación y registrar el componente
     createApp({
         components: {
-            LoginPage, RegisterPage
+            LoginPage, RegisterPage, HomePage
         },
         setup(){
             let page = ref("login");
