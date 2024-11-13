@@ -5,6 +5,13 @@ export function useFilm() {
     const films = reactive({data:[]})
     const filmSelected = reactive({data:{}})
 
+    const searchInput = ref('');
+
+    const search = async(data)=>{
+        console.log(data)
+        films.data = await comm.getFilms(data);
+    }
+
     const selectFilm = async(film) => {
         console.log(film)
         filmSelected.data = await comm.getFilm(film.data.imdbID);
@@ -12,7 +19,7 @@ export function useFilm() {
     }
 
     onBeforeMount(async () => {
-        films.data = await comm.getFilms();
+        films.data = await comm.getFilms("batman");
 
         console.log('onBeforeMount: El componente está a punto de montarse');
     });
@@ -22,17 +29,17 @@ export function useFilm() {
     });
 
     onBeforeUpdate(() => {
-        console.log('onBeforeUpdate: El componente está a punto de actualizarse');
     });
 
     onUpdated(() => {
-        console.log('onUpdated: El componente se ha actualizado');
     });
 
     return {
         films,
         filmSelected,
+        searchInput,
 
-        selectFilm
+        selectFilm,
+        search
     };
 }

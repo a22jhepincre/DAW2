@@ -1,8 +1,8 @@
-export async function getFilms(){
+export async function getFilms(string){
     // https://www.omdbapi.com/?s=Batman&apikey=535d16cc
     try {
         // Usamos una ruta relativa a la raíz del servidor para acceder al archivo estático
-        const response = await fetch('https://www.omdbapi.com/?s=Batman&apikey=535d16cc');
+        const response = await fetch(`https://www.omdbapi.com/?s=${string}&apikey=535d16cc`);
 
         if (!response.ok) {
             throw new Error(`Error: ${response.status} - ${response.statusText}`);
