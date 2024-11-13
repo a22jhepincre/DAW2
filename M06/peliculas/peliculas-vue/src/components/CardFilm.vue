@@ -7,8 +7,11 @@ const props = defineProps({
     default: {}
   }
 });
+const emit = defineEmits([
+    'film'
+])
 
-const cardFilm = useCardFilm(props);
+const cardFilm = useCardFilm(props, emit);
 </script>
 
 <template>
@@ -20,6 +23,11 @@ const cardFilm = useCardFilm(props);
       <div class="px-3 py-2">
         <p class="fs-4 fw-bold">{{ cardFilm.film.data.Title }}</p>
         <p class="fs-6">{{ cardFilm.film.data.Year }}</p>
+        <button @click="cardFilm.selectFilm" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#modal-info"
+        >
+          <i class="bi bi-info-circle-fill"></i>
+        </button>
       </div>
     </div>
   </div>

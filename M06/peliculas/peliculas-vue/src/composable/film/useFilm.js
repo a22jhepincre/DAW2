@@ -2,10 +2,13 @@ import {ref, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, reactive} from
 import * as comm from "@/communicationManager/communicationManager.js";
 
 export function useFilm() {
-    const title = ref('Hola'); // Título para el card
     const films = reactive({data:[]})
-    function updateTitle(newTitle) {
-        title.value = newTitle;
+    const filmSelected = reactive({data:{}})
+
+    const selectFilm = async(film) => {
+        console.log(film)
+        filmSelected.data = await comm.getFilm(film.data.imdbID);
+        console.log(filmSelected.data);
     }
 
     onBeforeMount(async () => {
@@ -27,8 +30,9 @@ export function useFilm() {
     });
 
     return {
-        title,
-        updateTitle,
-        films
+        films,
+        filmSelected,
+
+        selectFilm
     };
 }

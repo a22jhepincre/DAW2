@@ -1,21 +1,22 @@
 import {ref, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, reactive} from 'vue';
 
-export function useCardFilm(props, emit) {
-    const film = reactive({data:props.film});
+export function useModalFilmInfo(props) {
 
-    const selectFilm = ()=>{
-        console.log(film);
-        emit('film', film);
-    }
+    const film = reactive(props.film);
+
     onBeforeMount(() => {
+        console.log(film)
         console.log('onBeforeMount: El componente está a punto de montarse');
     });
 
     onMounted(() => {
+
         console.log('onMounted: El componente se ha montado');
     });
 
     onBeforeUpdate(() => {
+        console.log(film)
+
         console.log('onBeforeUpdate: El componente está a punto de actualizarse');
     });
 
@@ -26,6 +27,5 @@ export function useCardFilm(props, emit) {
     return {
         film,
 
-        selectFilm
     };
 }
