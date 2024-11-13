@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.IO Test</title>
+    <!-- Importar Socket.IO desde CDN como respaldo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        // Esperar a que el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            // Conectar al servidor actual
+            const socket = io('http://localhost:3000');
+
+            // Verificar conexión
+            socket.on('connect', () => {
+                console.log('Connected to server');
+                document.getElementById('status').textContent = 'Connected';
+            });
+
+            // Agregar el mensaje al hacer clic en el botón
+            document.getElementById('sendButton').addEventListener('click', () => {
+                const message = document.getElementById('messageInput').value;
+                if (message) {
+                    socket.emit('message', message);
+                    document.getElementById('messageInput').value = '';
+                }
+            });
+
+            // Recibir mensajes
+            socket.on('message', (data) => {
+                const messagesDiv = document.getElementById('messages');
+                const messageElement = document.createElement('p');
+                console.log(data.id)
+                messageElement.textContent =data.id + " " +data.message;
+                messagesDiv.appendChild(messageElement);
+            });
+
+            // Manejar desconexión
+            socket.on('disconnect', () => {
+                document.getElementById('status').textContent = 'Disconnected';
+            });
+        });
+    </script>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            height: 300px;
+            overflow-y: auto;
+        }
+        #status {
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        input {
+            flex: 1;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Socket.IO Chat Example</h2>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+    <div class="input-group">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button id="sendButton">Send</button>
+    </div>
+</div>
+</body>
+</html>
