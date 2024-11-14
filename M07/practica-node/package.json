@@ -1,9 +1,12 @@
 {
   "dependencies": {
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "http": "^0.0.1-security",
     "nodemon": "^3.1.7",
+    "react-toastify": "^10.0.6",
     "socket.io": "^4.8.1"
   }
 }

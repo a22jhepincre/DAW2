@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.IO Test</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- Importar Socket.IO desde CDN como respaldo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            height: 300px;
+            overflow-y: auto;
+        }
+        #status {
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        input {
+            flex: 1;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Socket.IO Chat Example</h2>
+    <p class="fs-4 m-0">¡Hola <span class="fs-3 fw-bold" id="name-user"></span>!</p>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+    <div class="input-group mb-3">
+        <div class="form-floating flex-grow-1">
+            <input type="text" class="form-control" id="messageInput" placeholder="Escribe un mensaje...">
+            <label for="messageInput">Mensaje</label>
+        </div>
+        <button class="btn btn-primary" id="sendButton">Enviar</button>
+    </div>
+
+    <button class="btn btn-danger" id="log-out">Log out</button>
+</div>
+
+<script src="chat.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

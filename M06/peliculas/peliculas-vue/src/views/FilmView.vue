@@ -15,7 +15,7 @@ import ModalFilmInfo from "@/components/ModalFilmInfo.vue";
     </div>
 
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="search-input" placeholder="Buscar..." v-model="film.searchInput.value" @blur="film.search(film.searchInput.value)">
+      <input type="text" class="form-control" id="search-input" placeholder="Buscar..." v-model="film.searchInput.value" @input="film.search(film.searchInput.value)">
       <label for="search-input">Buscar...</label>
     </div>
 

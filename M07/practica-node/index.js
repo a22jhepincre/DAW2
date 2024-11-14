@@ -1,16 +1,16 @@
 const express = require("express");
 const cors = require("cors"); // Importar CORS
-const UserController = require('./controllers/UserController');
-const SocketController = require('./controllers/SocketController');
+const UserController = require('./Controllers/UserController');
+const SocketController = require('./Controllers/SocketController');
 
 const app = express();
 const port = 3000;
 
 app.use(cors({
     origin: '*', // Permite todos los orígenes
-    // methods: ["GET", "POST"], // Métodos HTTP permitidos
-    // allowedHeaders: ["Content-Type"], // Permite encabezados específicos si es necesario
-    // credentials: true // Permite el envío de cookies y cabeceras de autorización
+    methods: ["GET", "POST"], // Métodos HTTP permitidos
+    allowedHeaders: ["Content-Type"], // Permite encabezados específicos si es necesario
+    credentials: true // Permite el envío de cookies y cabeceras de autorización
 }));
 
 // Crear servidor HTTP
@@ -25,6 +25,12 @@ const io = require('socket.io')(http, {
 
 // Rutas
 app.get("/", UserController.getHello);
+
+app.get('/hola', function(req,res){
+    console.log("hola")
+    // res.send({"hola":"hola"})
+})
+
 
 // Inicializar controlador de sockets
 SocketController.initialize(io);
