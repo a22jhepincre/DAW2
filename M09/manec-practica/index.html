@@ -7,32 +7,55 @@
         /* DEFAULT */
         #dalt {
             background-color: blue;
-            transform: scale(2,1);
+            transform: scale(2, 1);
             transform-origin: 0 0;
         }
+
         #punta {
             background-color: green;
             transform: translate(100px, -50px) skew(0, 25deg);
             transform-origin: 0 0;
         }
+
         #manec {
             background-color: black;
             transform: scale(0.8, 3) translate(30px, 0);
 
         }
+
+        #polsador {
+            background-color: aqua;
+        }
+
+        #polsador:hover ~ #contenidor {
+            transform: rotate(90deg) translate(100%, -100px)   ;
+        }
+
         #contenidor {
-            background-color: yellow;
-            width:200px;
+            transform-origin: bottom left;
+            transition: all 0.5s ease-out allow-discrete;
+            width: 200px;
             height: 200px;
         }
-        div{
+
+        div {
             width: 50px;
             height: 50px;
         }
+
+
+        /*#martell{*/
+        /*    transform-origin: -100% 50%;*/
+        /*    transform: rotate(45deg);*/
+        /*}*/
+
     </style>
     <title>Document</title>
 </head>
 <body>
+<div id="polsador">
+
+</div>
 <div id="contenidor">
     <div id="dalt">
     </div>
