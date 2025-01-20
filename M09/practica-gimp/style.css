@@ -1,0 +1,22 @@
+body{
+    background-color: coral;
+    margin: auto;
+
+}
+.texts{
+    width: 1024px;
+    margin: auto;
+    text-align: center;
+}
+.content{
+    width: 1024px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+img{
+    width: 512px;
+}
