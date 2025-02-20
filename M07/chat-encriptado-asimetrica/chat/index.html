@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chat</title>
+    <!-- Socket.io -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- JSEncrypt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
+    <!-- Sección de claves -->
+    <div class="p-4 border-b">
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Public Key</label>
+            <div class="flex mt-1">
+                <input type="text" id="publicKey" disabled value="Aquí irá la public key"
+                       class="flex-1 bg-gray-100 border border-gray-300 rounded-l-md px-3 py-2 text-sm" />
+                <button id="copyPublicKey"
+                        class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-2 rounded-r-md">
+                    Copy
+                </button>
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Private Key</label>
+            <div class="flex mt-1">
+                <input type="text" id="privateKey" disabled value="Aquí irá la private key"
+                       class="flex-1 bg-gray-100 border border-gray-300 rounded-l-md px-3 py-2 text-sm" />
+                <button id="copyPrivateKey"
+                        class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-2 rounded-r-md">
+                    Copy
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Sección de mensajes -->
+    <div class="chat-messages p-4 h-64 overflow-y-auto" id="chatMessages">
+        <!-- Los mensajes del chat se agregarán aquí -->
+    </div>
+    <!-- Sección de entrada de mensaje -->
+    <div class="p-4 border-t">
+        <div class="flex">
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje..."
+                   class="flex-1 border border-gray-300 rounded-l-md px-3 py-2" />
+            <button onclick="sendMessage()"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-r-md">
+                Enviar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="index.js"></script>
+<script>
+    // Función para copiar texto usando Clipboard API o fallback a document.execCommand
+    function copyToClipboard(text, fallbackInputElement) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Clipboard API disponible
+            navigator.clipboard.writeText(text)
+                .then(() => console.log("Copied to clipboard!"))
+                .catch(err => {
+                    console.error("Error copying to clipboard: ", err);
+                    console.log("Error copying to clipboard.");
+                });
+        } else {
+            // Fallback para navegadores sin Clipboard API
+            fallbackInputElement.select();
+            fallbackInputElement.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            alert("Copied to clipboard!");
+        }
+    }
+
+    // Copiar Public Key
+    document.getElementById('copyPublicKey').addEventListener('click', function () {
+        const publicKeyInput = document.getElementById('publicKey');
+        copyToClipboard(publicKeyInput.value, publicKeyInput);
+    });
+
+    // Copiar Private Key
+    document.getElementById('copyPrivateKey').addEventListener('click', function () {
+        const privateKeyInput = document.getElementById('privateKey');
+        copyToClipboard(privateKeyInput.value, privateKeyInput);
+    });
+</script>
+</body>
+</html>
