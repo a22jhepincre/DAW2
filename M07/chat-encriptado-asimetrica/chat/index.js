@@ -3,12 +3,17 @@ let chatMessages;
 let messageInput;
 let publicKey;
 let privateKey;
+let privateKeyValue;
+
+let usersKeys = [];
 
 socket.on("connect", () => {
     console.log("Conectado al servidor de chat con ID:", socket.id);
+    generateKeysRSA1();
 });
 
 function initChat() {
+    privateKeyValue = null;
     chatMessages = document.getElementById("chatMessages");
     messageInput = document.getElementById("messageInput");
     publicKey = document.getElementById('publicKey');
@@ -18,16 +23,34 @@ function initChat() {
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message) {
-        socket.emit("sendMessage", {message: message, socketId: socket.id});
+        usersKeys.forEach((user)=>{
+            const pKeyUser = user.publicKey;
+            const socketIdUser = user.socketId;
+            let encryptor = new JSEncrypt();
+            encryptor.setPublicKey(pKeyUser);
+            const ciphertext = encryptor.encrypt(message);
+            socket.emit("sendMessage", {message: ciphertext, socketId: socketIdUser});
+
+        });
         messageInput.value = "";
     }
 }
 
 socket.on("receivedMessage", (data) => {
-    if (data.socketId === socket.id) appendMessage(data.message, "sent");
-    else appendMessage(data.message, "received");
-
+    try {
+        let decryptor = new JSEncrypt();
+        decryptor.setPrivateKey(privateKeyValue);
+        const decryptedMessage = decryptor.decrypt(data.message);
+        if (data.socketId === socket.id) {
+            appendMessage(decryptedMessage, "sent");
+        } else {
+            appendMessage(decryptedMessage, "received");
+        }
+    } catch (error) {
+        console.error("Error al desencriptar el mensaje:", error);
+    }
 });
+
 
 function appendMessage(message, type) {
     const msgDiv = document.createElement("div");
@@ -45,27 +68,24 @@ function initSubmit (){
 
 let generateKeysRSA1 = ()=>{
     const crypt = new JSEncrypt({ default_key_size: 2048 });
+
     const publicKey = crypt.getPublicKey();
     const privateKey = crypt.getPrivateKey();
 
+    privateKeyValue = privateKey;
     this.publicKey.value = publicKey.toString();
     this.privateKey.value = privateKey.toString();
+
+    socket.emit('sendPublicKey', {publicKey: publicKey, socketId: socket.id});
 }
-function doCryptRSA1() {
-    const plaintext = document.getElementById("sms").value;
-    const ciphertext = crypt.encrypt(plaintext);
 
-    document.getElementById("smsCrypt").value = ciphertext;
-
-
-    // Decrypt the message using the private key
-    const decrypted = crypt.decrypt(ciphertext);
-    document.getElementById("smsDecrypt").value = decrypted;
-}
+socket.on('receivedPublicKey', (users)=>{
+    usersKeys = users
+    console.table(usersKeys)
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Chat script ejecutando...");
     initChat();
     initSubmit();
-    generateKeysRSA1();
 });
