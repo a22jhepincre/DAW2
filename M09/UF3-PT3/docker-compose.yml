@@ -1,0 +1,34 @@
+services:
+  web:
+    image: php:8.2-apache
+    container_name: apache_server
+    volumes:
+      - ./web:/var/www/html
+    networks:
+      - waf-net
+    expose:
+      - "80"
+   
+   
+  waf:
+    image: owasp/modsecurity-crs:nginx
+    container_name: waf_proxy
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND=http://web:80
+      - PARANOIA=4 # Nivell de seguretat del WAF (1 = bàsic, 4 = estricte)
+      - ANOMALY_INBOUND=5
+      - ANOMALY_OUTBOUND=4
+      - PROXY_ENGINE=On # Activa mode proxy invers
+      - RULE_ENGINE=On # Canvi de detecció a mode actiu (blocant)
+    depends_on:
+      - web
+    networks:
+      - waf-net
+   
+   
+networks:
+  waf-net:
+    driver: bridge
+   
