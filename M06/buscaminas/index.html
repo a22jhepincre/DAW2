@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Joc del Buscamines</title>
+  <style>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    #joc-container {
+      width: fit-content;
+      margin: 0 auto;
+      border: 2px solid #6FAF4E;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #aad751;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      vertical-align: middle;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      font-size: 18px;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <h1>Joc del Buscamines</h1>
+
+  <div id="joc-container"></div>
+ 
+  <script src="dist/buscaminas.js"></script>
+  <script>
+    const joc = new Joc(10, 10);
+  </script>
+</body>
+</html>

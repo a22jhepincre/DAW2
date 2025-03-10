@@ -1,35 +1,100 @@
 'use client'
 
-import React, {useState, useEffect} from 'react';
-import {MessageSquare} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageSquare } from 'lucide-react';
 import UsersList from '../components/UsersList';
 import ChatWindow from '../components/ChatWindow';
+import {getMyPeerId, signalMyPeer, connectPeer, sendMessage, peer} from "@/services/peer";
+import { socket } from "@/services/socket";
 
 export default function Home() {
-    const users = [
-        {
-            id: '1',
-            name: 'John Doe',
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
-        },
-        {
-            id: '2',
-            name: 'Jane Smith',
-            avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-        },
-        {
-            id: '3',
-            name: 'Mike Johnson',
-            avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
-        }
-    ];
+    const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    const onUserSelected = (user)=>{
-        setSelectedUser(user)
+
+    useEffect(() => {
+        // Emitir join una sola vez
+        socket.emit('join', null);
+
+        // Funciones para manejar los eventos
+        const handleUserJoined = (users) => {
+            const usersWithoutMe = users.filter(u => u.socketId !== socket.id);
+            setUsers(usersWithoutMe);
+        };
+
+        const handleUserLeft = (users) => {
+            const usersWithoutMe = users.filter(u => u.socketId !== socket.id);
+            setUsers(usersWithoutMe);
+        };
+
+        const handleReceivePeerId = ({ peer, socketId }) => {
+            const peerLocal = signalMyPeer(peer, socketId)
+            peerLocal.on('data', (data)=>{
+                const now = new Date();
+                const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                console.log(timestamp); // Por ejemplo: "14:32"
+                const newMessage = {text:data.toString(), isSent: false, timestamp: timestamp}
+                addMessage(newMessage)
+            })
+        };
+
+        const handleConnectPeer = ({ peer, socketId }) => {
+            connectPeer(peer);
+        };
+
+
+        // Registrar los listeners una sola vez
+        socket.on('userJoined', handleUserJoined);
+        socket.on('userLeft', handleUserLeft);
+        socket.on('receivePeerId', handleReceivePeerId);
+        socket.on('connectPeer', handleConnectPeer);
+
+        // Limpieza: quitar listeners al desmontar el componente
+        return () => {
+            socket.off('userJoined', handleUserJoined);
+            socket.off('userLeft', handleUserLeft);
+            socket.off('receivePeerId', handleReceivePeerId);
+            socket.off('connectPeer', handleConnectPeer);
+        };
+    }, []);
+
+    const onUserSelected = (user) => {
+        setSelectedUser(user);
+        const peer = getMyPeerId(user.socketId);
+
+        peer.on('data', (data)=>{
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            console.log(timestamp); // Por ejemplo: "14:32"
+            const newMessage = {text:data.toString(), isSent: false, timestamp: timestamp}
+           addMessage(newMessage)
+        })
+    };
+
+    useEffect(() => {
+    }, [selectedUser]);
+
+    const onBack = () => {
+        setSelectedUser(null);
+    };
+
+
+    const handleMessageSend = (message)=>{
+        sendMessage(message)
     }
 
-    const onBack = ()=>{
-        setSelectedUser(null);
+    const handleCall = ()=>{
+        x
+    }
+
+    const addMessage = (message)=>{
+        console.log(message)
+        setSelectedUser((prevUser) => {
+            if (!prevUser) return prevUser;
+            return {
+                ...prevUser,
+                messages: [...prevUser.messages, message]
+            };
+        });
     }
 
     return (
@@ -45,7 +110,11 @@ export default function Home() {
                     <div className="w-6 h-6 mr-2">foto</div>
                     <h1 className="text-xl font-semibold">Contacts</h1>
                 </div>
-                <UsersList users={users} selectedUser={selectedUser} onUserSelect={onUserSelected}/>
+                <UsersList
+                    users={users}
+                    selectedUser={selectedUser}
+                    onUserSelect={onUserSelected}
+                />
             </div>
 
             {/* Ventana de chat */}
@@ -55,8 +124,13 @@ export default function Home() {
                 } bg-gray-50`}
                 id="chat-container"
             >
-                <ChatWindow selectedUser={selectedUser} onBack={onBack}/>
-
+                <ChatWindow
+                    selectedUser={selectedUser}
+                    onBack={onBack}
+                    onMessageSend={handleMessageSend}
+                    addMessage={addMessage}
+                    onCall={handleCall}
+                />
             </div>
         </div>
     );
